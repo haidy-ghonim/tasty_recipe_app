@@ -14,6 +14,7 @@ class SignUpScreenPage extends StatefulWidget {
 
 class _SignUpScreenPageState extends State<SignUpScreenPage> {
 
+  @override
   void initState() {
     Provider.of<AppAuthProvider>(context, listen: false).providerInit();
     super.initState();

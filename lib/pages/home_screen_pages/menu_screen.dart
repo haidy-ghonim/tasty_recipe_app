@@ -2,21 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
 
-// class MenuItem {
-//   String title;
-//   IconData icon;
-//   MenuItem(this.icon, this.title);
-//
-//   final List<MenuItem> options = [
-//     MenuItem(Icons.payment, 'Payments'),
-//     MenuItem(Icons.favorite, 'Discounts'),
-//     MenuItem(Icons.notifications, 'Notification'),
-//     MenuItem(Icons.format_list_bulleted, 'Orders'),
-//     MenuItem(Icons.help, 'Help'),
-//   ];
-// }
 
-// her name + icon
+//todo menu screen
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
 
@@ -34,8 +21,8 @@ class _MenuScreenState extends State<MenuScreen> {
         // leadingWidth: 40,
         backgroundColor: Colors.red[100],
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 8.0),
           child: CircleAvatar(
             backgroundImage: AssetImage('images/girl.jpg'),
             // radius: 20,
@@ -43,7 +30,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ),
         // centerTitle: true,
-        title: Column(
+        title:  const Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -66,7 +53,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
       body: SingleChildScrollView(
         child: Container(
-          child: Wrap(
+        child: Wrap(
             children: [
               const ListTile(
                 leading: Icon(

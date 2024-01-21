@@ -26,12 +26,12 @@ class _AdsWidgetState extends State<AdsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return const MaterialApp();
     // return Consumer<AdsProvider>(
     //   builder: (ctx, adProvider, _) => adProvider.adsList == null
-          // ? const CircularProgressIndicator()
-          // // : (adProvider.adsList?.isEmpty ?? false)
-          // ? const Text('No Data Found')
+    //       ? const CircularProgressIndicator()
+    //       // : (adProvider.adsList?.isEmpty ?? false)
+    //       ? const Text('No Data Found')
     //       : Column(
     //     children: [
     //       CarouselSlider(

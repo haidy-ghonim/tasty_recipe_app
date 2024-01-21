@@ -95,13 +95,6 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            // 'Sign In',
-                            // style: TextStyle(
-                            //   color: Colors.white70,
-                            //   fontFamily: 'Hellix-RegularItalic',
-                            //   fontSize: 20,
-                            //   // fontWeight: FontWeight.normal
-                            // ),
                             onPressed: () {
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (_)=>const SignInScreenPage()));
