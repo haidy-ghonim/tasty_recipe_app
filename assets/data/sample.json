@@ -1,0 +1,71 @@
+{
+  "ads": [
+    {
+      "title": "Pancake with strawberry",
+      "image": "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Steak with Asparagus and Sauce",
+      "image": "https://images.pexels.com/photos/7226383/pexels-photo-7226383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Cooked Meat With Vegetables",
+      "image": "https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "A pizza with mushrooms",
+      "image":"https://images.pexels.com/photos/16557663/pexels-photo-16557663/free-photo-of-a-pizza-with-mushrooms-spinach-and-tomatoes-on-a-black-table.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Soup",
+      "image": "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Ice Cream",
+      "image": "https://images.pexels.com/photos/1362534/pexels-photo-1362534.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Colorful Doughnuts",
+      "image": "https://images.pexels.com/photos/7034523/pexels-photo-7034523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Fish  Shrimps",
+      "image": "https://images.pexels.com/photos/725992/pexels-photo-725992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Vegetable Salad With Wheat Bread",
+      "image": "https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+
+    {
+      "title": "Chicken With Wheat Bread",
+      "image": "https://images.pexels.com/photos/2741448/pexels-photo-2741448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    }
+
+  ],
+  "recipes": [
+    {
+
+      "id": 1,
+      "meal_type": "breakfast",
+      "title ": "test title",
+      "description": "test description",
+      "image": "network_image",
+      "rating": 4,
+      "calories": 100,
+      "prep_time": 120,
+      "serving": 2,
+      "ingredients": []
+    }
+
+  ]
+
+}
