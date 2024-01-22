@@ -533,7 +533,7 @@ class _MainScreenState extends State<MainScreen> {
                                               height: 8.0,
                                             ),
                                             Text(
-                                              "${freshRecipesProvide.freshList![index].review!}  Calories",
+                                              "${freshRecipesProvide.freshList![index].calories!}  Calories",
                                               style: TextStyle(
                                                   color: Colors.orange[900],
                                                   fontSize: 14.0,
@@ -601,7 +601,7 @@ class _MainScreenState extends State<MainScreen> {
             //************
             // todo Recommended
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

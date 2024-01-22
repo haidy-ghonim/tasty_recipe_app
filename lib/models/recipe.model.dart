@@ -7,8 +7,10 @@ class RecipeModel{
   int? serving;
   String ? description;
  String? mealType;
+ int?   calories;
 
-  RecipeModel();
+
+ RecipeModel();
   RecipeModel.fromJson(Map<String,dynamic>data,[String? id]){
     // docId = id;
     Ingredients=data['Ingredients'];
@@ -19,6 +21,7 @@ class RecipeModel{
    review=data['review'];
     serving=data['serving'];
     mealType=data['mealType'];
+    calories=data['calories'];
   }
 
 
