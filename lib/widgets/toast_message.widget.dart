@@ -3,7 +3,7 @@ import 'package:tasty_recipe_app/pages/utils/toast_message_status.dart';
 
 class ToastMessageWidget extends StatelessWidget {
   final ToastMessageStatus toastMessageStatus;
-  final String message;
+  final String message; //appear message
   const ToastMessageWidget(
       {this.toastMessageStatus
       = ToastMessageStatus.normal,
@@ -26,10 +26,10 @@ class ToastMessageWidget extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(15),
             color: toastMessageStatus == ToastMessageStatus.success
-                ? Colors.green
+                ? Colors.cyan[200]
                 : toastMessageStatus == ToastMessageStatus.failed
-                ? Colors.red
-                : Colors.white),
+                ? Colors.pink[200]
+                : Colors.yellowAccent[100]),
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(

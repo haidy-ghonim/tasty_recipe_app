@@ -61,7 +61,7 @@ class AppAuthProvider extends ChangeNotifier {
       }
     } on FirebaseAuthException catch (e) {
       OverlayLoadingProgress.stop();
-
+      //email mesh mogawada
       if (e.code == 'user-not-found') {
         OverlayToastMessage.show(
           widget: const ToastMessageWidget(
@@ -90,7 +90,7 @@ class AppAuthProvider extends ChangeNotifier {
       }
     } catch (e) {
       OverlayLoadingProgress.stop();
-      OverlayToastMessage.show(textMessage: 'General Error $e');
+      OverlayToastMessage.show(textMessage: 'Public Error $e');
     }
   }
 

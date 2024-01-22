@@ -1,14 +1,16 @@
+import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flut_grouped_buttons/flut_grouped_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:tasty_recipe_app/models/ad.model.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
-import 'package:tasty_recipe_app/pages/home_screen_pages/page_view_screen.dart';
-import 'package:tasty_recipe_app/pages/utils/navigation_utils.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
 import 'package:tasty_recipe_app/services/meal.service.dart';
@@ -58,6 +60,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     // getAda();
+    init();
     super.initState();
   }
 
@@ -66,6 +69,12 @@ class _MainScreenState extends State<MainScreen> {
   String getPrettyCurrPosition() {
     return (_currentPosition + 1.0).toStringAsPrecision(3);
   }
+
+
+  void init() {
+    Provider.of<AdsProvider>(context, listen: false).getAds();
+  }
+
 
   final decorator = DotsDecorator(
     activeColor: Colors.red,
@@ -79,7 +88,8 @@ class _MainScreenState extends State<MainScreen> {
 //carousel slider image
 
   final CarouselController _controller = CarouselController();
-  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+
+  // final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +137,7 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(left: 20, top: 10, right: 0, bottom: 0),
+                  EdgeInsets.only(left: 20, top: 10, right: 0, bottom: 0),
                   child: Text(
                     "Bonjour, Emma",
                     style: TextStyle(fontSize: 16.0, color: Colors.grey),
@@ -138,7 +148,6 @@ class _MainScreenState extends State<MainScreen> {
             const SizedBox(
               height: 12.0,
             ),
-            // Padding(padding:EdgeInsets.only(left: 25,top: 0,right: 0,bottom: 0) ),
             const Padding(
               padding: EdgeInsets.only(left: 20, top: 10, right: 0, bottom: 0),
               child: Text(
@@ -155,7 +164,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.only(left: 20, top: 0, right: 15, bottom: 0),
+              const EdgeInsets.only(left: 20, top: 0, right: 15, bottom: 0),
               child: Row(
                 children: [
                   Expanded(
@@ -178,7 +187,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           hintText: "Search For Recipes",
                           hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 14.0),
+                          TextStyle(color: Colors.grey, fontSize: 14.0),
                         ),
                       ),
                     ),
@@ -187,10 +196,11 @@ class _MainScreenState extends State<MainScreen> {
                     width: 16.0,
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const FilterScreenPage())),
+                    onTap: () =>
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const FilterScreenPage())),
                     child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 14.0, horizontal: 14.0),
@@ -210,130 +220,146 @@ class _MainScreenState extends State<MainScreen> {
             // todo CarouselSlider
             Consumer<AdsProvider>(builder: (context, value, child) {
               return Container(
-                child: Provider.of<AdsProvider>(context).ads.isEmpty
+                child: Provider
+                    .of<AdsProvider>(context)
+                    .ads
+                    .isEmpty
                     ? const CircularProgressIndicator()
                     : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Stack(
-                            alignment: Alignment.topLeft,
-                            children: [
-                              CarouselSlider(
-                                carouselController: _controller,
-                                options: CarouselOptions(
-                                  height: 200.0,
-                                  viewportFraction: .75,
-                                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  aspectRatio: 0.5,
-                                  initialPage: 0,
-                                  reverse: false,
-                                  enableInfiniteScroll: true,
-                                  autoPlayInterval: const Duration(seconds: 3),
-                                  autoPlayAnimationDuration:
-                                      const Duration(milliseconds: 2000),
-                                  pauseAutoPlayOnTouch: true,
-                                  onPageChanged: (index, _) {
-                                    sliderIndex = index;
-                                    setState(() {});
-                                  },
-                                  enlargeFactor: .3,
-                                  scrollDirection: Axis.horizontal,
-                                ),
-                                // items: state.ads.map((ad)
-                                items:value.ads.map((ad) {
-                                  return Builder(
-                                    builder: (BuildContext context) {
-                                      return Stack(
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.of(context).size.width,
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 5.0),
-                                            child: Container(
-                                              width:
-                                                  MediaQuery.of(context).size.width,
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 5),
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: NetworkImage(ad.image!)),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              child: Text(
-                                                ad.title!,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16),
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.black38,
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              padding: const EdgeInsets.all(5),
-                                              margin: const EdgeInsets.all(10),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                              Positioned.fill(
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () async {
-                                            await _controller.previousPage();
-                                          },
-                                          icon: const Icon(Icons.arrow_back_ios)),
-                                      IconButton(
-                                          onPressed: () async {
-                                            await _controller.nextPage();
-                                          },
-                                          icon: const Icon(Icons.arrow_forward_ios)),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      alignment: Alignment.topLeft,
+                      children: [
+                        CarouselSlider(
+                          carouselController: _controller,
+                          options: CarouselOptions(
+                            height: 200.0,
+                            viewportFraction: .75,
+                            enlargeStrategy:
+                            CenterPageEnlargeStrategy.height,
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                            aspectRatio: 0.5,
+                            initialPage: 0,
+                            reverse: false,
+                            enableInfiniteScroll: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                            const Duration(milliseconds: 2000),
+                            pauseAutoPlayOnTouch: true,
+                            onPageChanged: (index, _) {
+                              sliderIndex = index;
+                              setState(() {});
+                            },
+                            enlargeFactor: .3,
+                            scrollDirection: Axis.horizontal,
                           ),
-                          Center(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  DotsIndicator(
-                                    dotsCount: adsList.length,
-                                    position: sliderIndex,
-                                    onTap: (position) async {
-                                      await _controller.animateToPage(position);
-                                      sliderIndex = position;
-                                      setState(() {});
-                                    },
-                                    decorator: DotsDecorator(
-                                      size: const Size.square(9.0),
-                                      activeSize: const Size(18.0, 9.0),
-                                      activeShape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5.0)),
+                          // items: state.ads.map((ad)
+                          items: value.ads.map((ad) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Stack(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                      child: Container(
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width,
+                                        margin:
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: NetworkImage(
+                                                  ad.image!)),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ]),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        child: Text(
+                                          ad.title!,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black38,
+                                          borderRadius:
+                                          BorderRadius.circular(15),
+                                        ),
+                                        padding: const EdgeInsets.all(5),
+                                        margin: const EdgeInsets.all(10),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                        Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                    onPressed: () async {
+                                      await _controller.previousPage();
+                                    },
+                                    icon:
+                                    const Icon(Icons.arrow_back_ios)),
+                                IconButton(
+                                    onPressed: () async {
+                                      await _controller.nextPage();
+                                    },
+                                    icon: const Icon(
+                                        Icons.arrow_forward_ios)),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
+                     // Row(
+                     //      mainAxisAlignment: MainAxisAlignment.center,
+                     //      crossAxisAlignment: CrossAxisAlignment.center,
+                     //      children: [
+                     //        DotsIndicator(
+                     //          dotsCount: adsList.length,
+                     //          position: sliderIndex,
+                     //          onTap: (position) async {
+                     //            await _controller.animateToPage(position);
+                     //            sliderIndex = position;
+                     //            setState(() {});
+                     //          },
+                     //          decorator: DotsDecorator(
+                     //            size: const Size.square(9.0),
+                     //            activeSize: const Size(18.0, 9.0),
+                     //            activeShape: RoundedRectangleBorder(
+                     //                borderRadius:
+                     //                BorderRadius.circular(5.0)),
+                     //          ),
+                     //        ),
+                     //      ]
+                     //         ),
+
+
+                  ],
+                ),
               );
             }),
 
@@ -382,7 +408,6 @@ class _MainScreenState extends State<MainScreen> {
                 shrinkWrap: true,
                 itemCount: freshList.length,
                 itemBuilder: (context, index) {
-
                   //todo el page el feha back plate
                   return
                     // GestureDetector(
@@ -422,8 +447,8 @@ class _MainScreenState extends State<MainScreen> {
                             top: 120,
                             // left: 20,
                             child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -761,12 +786,20 @@ class _MainScreenState extends State<MainScreen> {
                 }),
             Center(
               child: ElevatedButton(
-                  onPressed: () {
-                    Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
+                  onPressed: () async {
+                    OverlayLoadingProgress.start();
+                    FirebaseFirestore.instance.collection('ads').add({
+                      "title": "Chicken With Wheat Bread",
+                      "image":
+                      "https://images.pexels.com/photos/2741448/pexels-photo-2741448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    });
+                    OverlayLoadingProgress.stop();
+
+                    // Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
                     // NavigationUtils.push(
                     //     context: context, page: const PageViewPage());
                   },
-                  child: const Text('SignOut')),
+                  child: const Text('Add')),
             ),
           ], //children
         ),

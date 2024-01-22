@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/sign_1_2_login/signup_screen_page.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
-import '../home_screen_pages/home_first_screen.dart';
 
 //login in
 class SignInScreenPage extends StatefulWidget {
