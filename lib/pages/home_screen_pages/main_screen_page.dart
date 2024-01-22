@@ -7,8 +7,10 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/models/ad.model.dart';
+import 'package:tasty_recipe_app/pages/detailspage/details_screen.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
+import 'package:tasty_recipe_app/provider/fresh_recipes.provider.dart';
 import 'package:tasty_recipe_app/services/meal.service.dart';
 
 //todo main screen home  first
@@ -20,16 +22,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List freshList = [
-    {
-      "image": "images/frensh toast.png",
-      "name": "Fresh Toast with Berries asdasasdas "
-    },
-    {
-      "image": "images/Cinnamon Toaast.png",
-      "name": "Brow Sugar Cinnamon Toast"
-    },
-    {"image": "images/GlazedSalmon.png", "name": "Asian Glazed Chicken Things"},
+  List<Ad> freshList = [
+    // {
+    //   "image": "images/frensh toast.png",
+    //   "name": "Fresh Toast with Berries asdasasdas "
+    // },
+    // {
+    //   "image": "images/Cinnamon Toaast.png",
+    //   "name": "Brow Sugar Cinnamon Toast"
+    // },
+    // {"image": "images/GlazedSalmon.png", "name": "Asian Glazed Chicken Things"},
   ];
 
   List recommendedList = [
@@ -53,25 +55,25 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // getAda();
     init();
     super.initState();
   }
 
-  final int _currentPosition = 0;
-
-  String getPrettyCurrPosition() {
-    return (_currentPosition + 1.0).toStringAsPrecision(3);
-  }
-
   void init() async {
     await Provider.of<AdsProvider>(context, listen: false).getAds();
+    await Provider.of<FreshRecipesProvider>(context,listen: false).getTodayRecipes();
   }
 
   @override
   void dispose() {
     Provider.of<AdsProvider>(context, listen: false).disposedCarousel();
     super.dispose();
+  }
+
+  final int _currentPosition = 0;
+
+  String getPrettyCurrPosition() {
+    return (_currentPosition + 1.0).toStringAsPrecision(3);
   }
 
   // final decorator = DotsDecorator(
@@ -221,7 +223,7 @@ class _MainScreenState extends State<MainScreen> {
                     : (adProvider.adsList?.isEmpty ?? false)
                         ? const Text('NO DATA FOUND')
                         : Container(
-                          child: Column(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -262,15 +264,17 @@ class _MainScreenState extends State<MainScreen> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  margin:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 5.0),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 5.0),
                                                   child: Container(
-                                                    width: MediaQuery.of(context)
-                                                        .size
-                                                        .width,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     margin: const EdgeInsets
-                                                        .symmetric(horizontal: 5),
+                                                        .symmetric(
+                                                        horizontal: 5),
                                                     decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                           fit: BoxFit.fill,
@@ -298,7 +302,8 @@ class _MainScreenState extends State<MainScreen> {
                                                     padding:
                                                         const EdgeInsets.all(5),
                                                     margin:
-                                                        const EdgeInsets.all(10),
+                                                        const EdgeInsets.all(
+                                                            10),
                                                   ),
                                                 ),
                                               ],
@@ -338,7 +343,8 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       DotsIndicator(
                                         dotsCount: adProvider.adsList!.length,
@@ -356,13 +362,13 @@ class _MainScreenState extends State<MainScreen> {
                                     ]),
                               ],
                             ),
-                        )),
+                          )),
 
             const SizedBox(
               height: 40,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -398,178 +404,196 @@ class _MainScreenState extends State<MainScreen> {
             const SizedBox(
               height: 16.0,
             ),
-            // moram3at el feha el kalam
-            Container(
-              height: 300,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: freshList.length,
-                itemBuilder: (context, index) {
-                  //todo el page el feha back plate
-                  return
-                      // GestureDetector(
-                      // onTap: () =>
-                      //     Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         DetailsScreen(freshList[index]["name"])
-                      //
-                      //     )),
 
-                      // child:
-                      Container(
-                    height: 255.0,
-                    width: 200.0,
-                    margin: const EdgeInsets.only(right: 32.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                            left: 16.0,
-                            top: 16.0,
-                            child: Icon(
-                              Icons.favorite_border,
-                              color: Colors.grey[400],
-                            )),
-                        Positioned(
-                          top: -65,
-                          height: 190,
-                          width: 260,
-                          child: Image.asset(freshList[index]["image"]),
-                        ),
-                        Positioned(
-                          top: 120,
-                          // left: 20,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Breakfast",
-                                  style: TextStyle(
-                                      fontFamily: 'Hellix-MediumItalic',
-                                      fontSize: 10.0,
-                                      color: Colors.cyan[700],
-                                      fontWeight: FontWeight.normal),
+            // moram3at el feha el kalam
+            Consumer<FreshRecipesProvider>(
+              builder: (context, freshRecipesProvide, _) => freshRecipesProvide
+                          .freshList ==
+                      null
+                  ? const CircularProgressIndicator()
+                  : (freshRecipesProvide.freshList?.isEmpty ?? false)
+                      ? const Text('NO DATA FOUND')
+                      : Container(
+                          height: 300,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: freshRecipesProvide.freshList!.length,//todo fresh list besa
+                            itemBuilder: (context, index) {
+                              //todo el page el feha back plate
+                              return
+                                  GestureDetector(
+                                  onTap: () =>
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailsScreen(freshList[index].image),
+
+                                      )),
+
+                                  child:
+                                   Container(
+                                      height: 255.0,
+                                     width: 200.0,
+                                      margin: const EdgeInsets.only(right: 32.0),
+                                       decoration: BoxDecoration(
+                                       color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Container(
-                                  width: 200,
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          freshList[index]["name"],
-                                          maxLines: 2,
-                                          // overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontFamily: 'Hellix-MediumItalic',
-                                            fontSize: 16.0,
-                                          ),
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                        left: 16.0,
+                                        top: 16.0,
+                                        child: Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.grey[400],
+                                        )),
+                                    Positioned(
+                                      top: -65,
+                                      height: 190,
+                                      width: 260,
+                                      child:
+                                      Image.network(
+                                        freshRecipesProvide.freshList![index].image!
+                                          // freshList[index]["image"]
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 120,
+                                      // left: 20,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              freshRecipesProvide.freshList![index].mealType!,
+                                              style: TextStyle(
+                                                  fontFamily:
+                                                      'Hellix-MediumItalic',
+                                                  fontSize: 10.0,
+                                                  color: Colors.cyan[700],
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
+                                            const SizedBox(
+                                              height: 8.0,
+                                            ),
+                                            Container(
+                                              width: 200,
+                                              child: Row(
+                                                children: [
+                                                  Flexible(
+                                                    child: Text(freshRecipesProvide.freshList![index].title!,
+                                                      maxLines: 2,
+                                                      // overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                        fontFamily:
+                                                            'Hellix-MediumItalic',
+                                                        fontSize: 16.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 8.0,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.orange[800],
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.orange[800],
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.orange[800],
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.orange[800],
+                                                ),
+
+                                                // List.generate( 5,(index) =>Icon(Icons.star,
+                                                //    color: Colors.orange[800],
+                                                //          size:16.0,
+                                                //           ),
+                                                // ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 8.0,
+                                            ),
+                                            Text(
+                                              "${freshRecipesProvide.freshList![index].review!}  Calories",
+                                              style: TextStyle(
+                                                  color: Colors.orange[900],
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            const SizedBox(
+                                              height: 8.0,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.access_time,
+                                                  color: Colors.grey[400],
+                                                  size: 19.0,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5.0,
+                                                ),
+                                                Text(
+                                                  "${freshRecipesProvide.freshList![index].time.toString()} mins",
+                                                  style: TextStyle(
+                                                      fontSize: 13.0,
+                                                      color: Colors.grey[500]),
+                                                ),
+                                                const SizedBox(
+                                                  width: 16.0,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .room_service_outlined,
+                                                      color: Colors.grey[400],
+                                                      size: 19.0,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5.0,
+                                                    ),
+                                                    Text(
+                                                      "${freshRecipesProvide.freshList![index].serving.toString()} Serving" ,
+                                                      style: TextStyle(
+                                                        fontSize: 13.0,
+                                                        color: Colors.grey[500],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.orange[800],
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.orange[800],
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.orange[800],
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.orange[800],
-                                    ),
-
-                                    // List.generate( 5,(index) =>Icon(Icons.star,
-                                    //    color: Colors.orange[800],
-                                    //          size:16.0,
-                                    //           ),
-                                    // ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Text(
-                                  "120  Calories",
-                                  style: TextStyle(
-                                      color: Colors.orange[900],
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.access_time,
-                                      color: Colors.grey[400],
-                                      size: 19.0,
-                                    ),
-                                    const SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    Text(
-                                      "10 mins",
-                                      style: TextStyle(
-                                          fontSize: 13.0,
-                                          color: Colors.grey[500]),
-                                    ),
-                                    const SizedBox(
-                                      width: 16.0,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.room_service_outlined,
-                                          color: Colors.grey[400],
-                                          size: 19.0,
-                                        ),
-                                        const SizedBox(
-                                          width: 5.0,
-                                        ),
-                                        Text(
-                                          "1 Serving",
-                                          style: TextStyle(
-                                            fontSize: 13.0,
-                                            color: Colors.grey[500],
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      ],
-                    ),
-                    // ),
-                  );
-                },
-              ),
             ),
             const SizedBox(
               height: 16,
@@ -632,8 +656,8 @@ class _MainScreenState extends State<MainScreen> {
                     //     child:
 
                     Container(
-                      child: Row(
-                        children: [
+                  child: Row(
+                    children: [
                       Image.asset(
                         recommendedList[index]["image"],
                         height: 150.0,
@@ -728,7 +752,8 @@ class _MainScreenState extends State<MainScreen> {
                                   Text(
                                     "10 mins",
                                     style: TextStyle(
-                                        fontSize: 13.0, color: Colors.grey[500]),
+                                        fontSize: 13.0,
+                                        color: Colors.grey[500]),
                                   ),
                                   const SizedBox(
                                     width: 16.0,
@@ -771,10 +796,10 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                       ),
-                                        ],
-                                        // ), // ),
-                                      ),
-                    );
+                    ],
+                    // ), // ),
+                  ),
+                );
               }, //return to container two
             ),
 

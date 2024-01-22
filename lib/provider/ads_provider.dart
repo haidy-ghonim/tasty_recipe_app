@@ -47,6 +47,14 @@ class AdsProvider extends ChangeNotifier {
   }
 }
 
+
+
+
+
+
+
+
+
 // class AdsProvider extends ChangeNotifier {
 //   List<Ad> _ads = [];
 //

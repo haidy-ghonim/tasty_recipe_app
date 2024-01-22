@@ -8,6 +8,7 @@ import 'package:tasty_recipe_app/firebase_options.dart';
 import 'package:tasty_recipe_app/pages/splash_screen_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
+import 'package:tasty_recipe_app/provider/fresh_recipes.provider.dart';
 
 void main() async {
   //shared preference by get-it
@@ -26,7 +27,9 @@ void main() async {
   runApp( MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => AppAuthProvider()),
       ChangeNotifierProvider(create: (_) => AdsProvider()),
-    ], child: const MyApp()),);
+    ChangeNotifierProvider(create: (_) => FreshRecipesProvider()),
+
+  ], child: const MyApp()),);
 }
 
 class MyApp extends StatelessWidget {
