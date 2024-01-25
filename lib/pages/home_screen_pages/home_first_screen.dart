@@ -15,8 +15,6 @@ class _HomeFirstScreenState extends State<HomeFirstScreen> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      // title: 'hell0',
-      // theme: ThemeData(primarySwatch: Colors.blue),
       home: DrawerScreen(),
     );
   }

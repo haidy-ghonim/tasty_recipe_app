@@ -7,10 +7,10 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/models/ad.model.dart';
-import 'package:tasty_recipe_app/pages/detailspage/details_screen.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/fresh_recipes.provider.dart';
+import 'package:tasty_recipe_app/provider/ingredinets_provider.dart';
 import 'package:tasty_recipe_app/services/meal.service.dart';
 
 //todo main screen home  first
@@ -61,7 +61,9 @@ class _MainScreenState extends State<MainScreen> {
 
   void init() async {
     await Provider.of<AdsProvider>(context, listen: false).getAds();
-    await Provider.of<FreshRecipesProvider>(context,listen: false).getTodayRecipes();
+    await Provider.of<FreshRecipesProvider>(context, listen: false)
+        .getTodayRecipes();
+    // await Provider.of<IngredientsProvider>(context,listen: false).getIngredient();
   }
 
   @override
@@ -289,7 +291,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   child: Container(
                                                     child: Text(
                                                       ad.title!,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 16),
                                                     ),
@@ -418,26 +420,27 @@ class _MainScreenState extends State<MainScreen> {
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            itemCount: freshRecipesProvide.freshList!.length,//todo fresh list besa
+                            itemCount: freshRecipesProvide
+                                .freshList!.length, //todo fresh list besa
                             itemBuilder: (context, index) {
                               //todo el page el feha back plate
                               return
-                                  GestureDetector(
-                                  onTap: () =>
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailsScreen(freshList[index].image),
-
-                                      )),
-
-                                  child:
-                                   Container(
-                                      height: 255.0,
-                                     width: 200.0,
-                                      margin: const EdgeInsets.only(right: 32.0),
-                                       decoration: BoxDecoration(
-                                       color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(20.0),
+                                  // GestureDetector(
+                                  // onTap: () => Navigator.of(context)
+                                  //     .push(MaterialPageRoute(
+                                  //   builder: (context) =>
+                                  //       DetailsScreen(freshList[index].image),
+                                  // ),
+                                  // ),
+                                  // child:
+                                  Container(
+                                height: 255.0,
+                                width: 200.0,
+                                margin: const EdgeInsets.only(
+                                    right: 10.0, left: 10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
                                 child: Stack(
                                   clipBehavior: Clip.none,
@@ -450,14 +453,13 @@ class _MainScreenState extends State<MainScreen> {
                                           color: Colors.grey[400],
                                         )),
                                     Positioned(
-                                      top: -65,
-                                      height: 190,
-                                      width: 260,
-                                      child:
-                                      Image.network(
-                                        freshRecipesProvide.freshList![index].image!
-                                          // freshList[index]["image"]
-                                      ),
+                                      // top: -1,
+                                      top: 20,
+                                      right: -10,
+                                      height: 90,
+                                      width: 110,
+                                      child: Image.network(freshRecipesProvide
+                                          .freshList![index].image!),
                                     ),
                                     Positioned(
                                       top: 120,
@@ -470,7 +472,8 @@ class _MainScreenState extends State<MainScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              freshRecipesProvide.freshList![index].mealType!,
+                                              freshRecipesProvide
+                                                  .freshList![index].mealType!,
                                               style: TextStyle(
                                                   fontFamily:
                                                       'Hellix-MediumItalic',
@@ -487,7 +490,10 @@ class _MainScreenState extends State<MainScreen> {
                                               child: Row(
                                                 children: [
                                                   Flexible(
-                                                    child: Text(freshRecipesProvide.freshList![index].title!,
+                                                    child: Text(
+                                                      freshRecipesProvide
+                                                          .freshList![index]
+                                                          .title!,
                                                       maxLines: 2,
                                                       // overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
@@ -573,7 +579,7 @@ class _MainScreenState extends State<MainScreen> {
                                                       width: 5.0,
                                                     ),
                                                     Text(
-                                                      "${freshRecipesProvide.freshList![index].serving.toString()} Serving" ,
+                                                      "${freshRecipesProvide.freshList![index].serving.toString()} Serving",
                                                       style: TextStyle(
                                                         fontSize: 13.0,
                                                         color: Colors.grey[500],
@@ -589,7 +595,7 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                   ],
                                 ),
-                                ),
+                                // ),
                               );
                             },
                           ),
@@ -602,6 +608,7 @@ class _MainScreenState extends State<MainScreen> {
             // todo Recommended
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -656,6 +663,10 @@ class _MainScreenState extends State<MainScreen> {
                     //     child:
 
                     Container(
+                  color: Colors.grey[200], // color of background
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.only(right: 20.0, top: 10, left: 20),
+                  // decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -783,10 +794,10 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                       Align(
-                        alignment: Alignment.topRight,
+                        alignment: Alignment.topCenter,
                         child: Container(
-                          height: 32.0,
-                          width: 25.0,
+                          height: 96.0,
+                          width: 28.0,
                           child: IconButton(
                             onPressed: () {},
                             icon: const Icon(
