@@ -9,7 +9,6 @@ import 'package:tasty_recipe_app/pages/splash_screen_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
 import 'package:tasty_recipe_app/provider/fresh_recipes.provider.dart';
-import 'package:tasty_recipe_app/provider/ingredinets_provider.dart';
 
 void main() async {
   //shared preference by get-it

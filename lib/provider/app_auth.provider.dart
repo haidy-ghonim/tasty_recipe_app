@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:tasty_recipe_app/pages/home_screen_pages/home_first_screen.dart';
 import 'package:tasty_recipe_app/pages/splash_screen_page.dart';
-import 'package:tasty_recipe_app/pages/utils/toast_message_status.dart';
+import 'package:tasty_recipe_app/utils/toast_message_status.dart';
 import 'package:tasty_recipe_app/widgets/toast_message.widget.dart';
 
 class AppAuthProvider extends ChangeNotifier {

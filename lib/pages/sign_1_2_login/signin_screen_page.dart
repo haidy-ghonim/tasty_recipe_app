@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/sign_1_2_login/signup_screen_page.dart';
@@ -81,6 +82,9 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                       (value?.isEmpty ?? false)) {
                                     return 'email is required';
                                   }
+                                  if (!EmailValidator.validate(value)) {
+                                    return 'Not Valid Email';
+                                  }
                                   return null;
                                 },
                                 textInputAction: TextInputAction.next,
@@ -107,8 +111,6 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                 controller: authProvider.passwordController,
                                 obscureText: authProvider.obsecureText,
                                 style: const TextStyle(color: Colors.white),
-                                // autovalidateMode: AutovalidateMode.always,
-                                // autofocus: true,
                                 validator: (value) {
                                   if (value == null ||
                                       (value?.isEmpty ?? false)) {
@@ -174,7 +176,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                   padding:
                                       const EdgeInsets.fromLTRB(20, 15, 20, 15),
                                   minWidth: MediaQuery.of(context).size.width,
-                                  onPressed: () async{
+                                  onPressed: () async {
                                     await authProvider.logIn(context);
                                     // Navigator.pushReplacement(
                                     //   context,

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:tasty_recipe_app/models/recipe.model.dart';
-import 'package:tasty_recipe_app/pages/utils/toast_message_status.dart';
+import 'package:tasty_recipe_app/utils/toast_message_status.dart';
 import 'package:tasty_recipe_app/widgets/toast_message.widget.dart';
 
 class FreshRecipesProvider extends ChangeNotifier {

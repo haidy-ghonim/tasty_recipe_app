@@ -1,17 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flut_grouped_buttons/flut_grouped_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/models/ad.model.dart';
+import 'package:tasty_recipe_app/pages/detailspage/details_screen.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/fresh_recipes.provider.dart';
-import 'package:tasty_recipe_app/provider/ingredinets_provider.dart';
-import 'package:tasty_recipe_app/services/meal.service.dart';
 
 //todo main screen home  first
 class MainScreen extends StatefulWidget {
@@ -22,6 +19,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool favorite = true;
+
+  void toggleFavorite() {
+    favorite = !favorite;
+    setState(() {});
+  }
+
   List<Ad> freshList = [
     // {
     //   "image": "images/frensh toast.png",
@@ -44,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   List<Ad> adsList = [];
-
   // void getAda() async {
   //   var adsData = await rootBundle.loadString('assets/data/sample.json');
   //   var dataDecoded =
@@ -77,21 +80,6 @@ class _MainScreenState extends State<MainScreen> {
   String getPrettyCurrPosition() {
     return (_currentPosition + 1.0).toStringAsPrecision(3);
   }
-
-  // final decorator = DotsDecorator(
-  //   activeColor: Colors.red,
-  //   size: const Size.square(15.0),
-  //   activeSize: const Size.square(35.0),
-  //   activeShape: RoundedRectangleBorder(
-  //     borderRadius: BorderRadius.circular(25.0),
-  //   ),
-  // );
-
-//carousel slider image
-
-  //todo change
-  //  final CarouselController _controller = CarouselController();
-  // final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
   @override
   Widget build(BuildContext context) {
@@ -179,6 +167,7 @@ class _MainScreenState extends State<MainScreen> {
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(14.0)),
                       child: TextField(
+                        onTap: () {}, //search same thing make page
                         cursorColor: Colors.grey[500],
                         decoration: const InputDecoration(
                           border: InputBorder.none,
@@ -354,6 +343,7 @@ class _MainScreenState extends State<MainScreen> {
                                         onTap: (position) =>
                                             adProvider.onDotTappedRow(position),
                                         decorator: DotsDecorator(
+                                          activeColor: Colors.orangeAccent,
                                           size: const Size.square(9.0),
                                           activeSize: const Size(18.0, 9.0),
                                           activeShape: RoundedRectangleBorder(
@@ -370,7 +360,8 @@ class _MainScreenState extends State<MainScreen> {
               height: 40,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding:
+                  const EdgeInsets.only(left: 20, top: 0, right: 15, bottom: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -379,7 +370,7 @@ class _MainScreenState extends State<MainScreen> {
                     style: TextStyle(
                       fontSize: 18.0,
                       fontFamily: "LibreBaskerville",
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.normal,
                     ),
                   ),
@@ -416,7 +407,9 @@ class _MainScreenState extends State<MainScreen> {
                   : (freshRecipesProvide.freshList?.isEmpty ?? false)
                       ? const Text('NO DATA FOUND')
                       : Container(
-                          height: 300,
+                          height: 370,
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 0, right: 10, bottom: 0),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
@@ -424,154 +417,148 @@ class _MainScreenState extends State<MainScreen> {
                                 .freshList!.length, //todo fresh list besa
                             itemBuilder: (context, index) {
                               //todo el page el feha back plate
-                              return
-                                  // GestureDetector(
-                                  // onTap: () => Navigator.of(context)
-                                  //     .push(MaterialPageRoute(
-                                  //   builder: (context) =>
-                                  //       DetailsScreen(freshList[index].image),
-                                  // ),
-                                  // ),
-                                  // child:
-                                  Container(
-                                height: 255.0,
-                                width: 200.0,
-                                margin: const EdgeInsets.only(
-                                    right: 10.0, left: 10.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(20.0),
+                              return GestureDetector(
+                                onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsScreen(
+                                        freshRecipesProvide
+                                            .freshList![index].image!),
+                                  ),
                                 ),
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Positioned(
-                                        left: 16.0,
-                                        top: 16.0,
-                                        child: Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.grey[400],
-                                        )),
-                                    Positioned(
-                                      // top: -1,
-                                      top: 20,
-                                      right: -10,
-                                      height: 90,
-                                      width: 110,
-                                      child: Image.network(freshRecipesProvide
-                                          .freshList![index].image!),
+                                child: Card(
+                                  color: Colors.grey[100],
+                                  // elevation: 2,
+                                  child: Container(
+                                    height: 300,
+                                    width: 210,
+                                    margin: const EdgeInsets.only(
+                                        right: 10.0, left: 10.0),
+                                    decoration: BoxDecoration(
+                                      // color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                    Positioned(
-                                      top: 120,
-                                      // left: 20,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: InkWell(
+                                              onTap: () {
+                                                toggleFavorite();
+                                              },
+                                              child: (favorite
+                                                  ? const Icon(
+                                                      Icons
+                                                          .favorite_border_rounded,
+                                                      size: 30,
+                                                      color: Colors.grey,
+                                                    )
+                                                  :  Icon(
+                                                      Icons.favorite_rounded,
+                                                      size: 30,
+                                                      color: Colors.orange[900],
+                                                    )),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 50,
+                                          right: 4,
+                                          height: 150,
+                                          child: Image.network(
                                               freshRecipesProvide
-                                                  .freshList![index].mealType!,
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      'Hellix-MediumItalic',
-                                                  fontSize: 10.0,
-                                                  color: Colors.cyan[700],
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                            ),
-                                            const SizedBox(
-                                              height: 8.0,
-                                            ),
-                                            Container(
-                                              width: 200,
-                                              child: Row(
-                                                children: [
-                                                  Flexible(
-                                                    child: Text(
-                                                      freshRecipesProvide
-                                                          .freshList![index]
-                                                          .title!,
-                                                      maxLines: 2,
-                                                      // overflow: TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                        fontFamily:
-                                                            'Hellix-MediumItalic',
-                                                        fontSize: 16.0,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 8.0,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.orange[800],
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.orange[800],
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.orange[800],
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.orange[800],
-                                                ),
+                                                  .freshList![index].image!,
+                                          fit: BoxFit.contain,
+                                          ),
 
-                                                // List.generate( 5,(index) =>Icon(Icons.star,
-                                                //    color: Colors.orange[800],
-                                                //          size:16.0,
-                                                //           ),
-                                                // ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 8.0,
-                                            ),
-                                            Text(
-                                              "${freshRecipesProvide.freshList![index].calories!}  Calories",
-                                              style: TextStyle(
-                                                  color: Colors.orange[900],
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            const SizedBox(
-                                              height: 8.0,
-                                            ),
-                                            Row(
+                                        ),
+                                        Positioned(
+                                          top: 210,
+                                          // left: 20,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Icon(
-                                                  Icons.access_time,
-                                                  color: Colors.grey[400],
-                                                  size: 19.0,
+                                                Text(
+                                                  freshRecipesProvide
+                                                      .freshList![index]
+                                                      .mealType!,
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        'Hellix-MediumItalic',
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: Colors.cyan[700],
+                                                  ),
                                                 ),
                                                 const SizedBox(
-                                                  width: 5.0,
+                                                  height: 8.0,
+                                                ),
+                                                Container(
+                                                  width: 300,
+                                                  child: Row(
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          freshRecipesProvide
+                                                              .freshList![index]
+                                                              .title!,
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis, //todo bafakera akafalha
+                                                          style:
+                                                              const TextStyle(
+                                                            fontFamily:
+                                                                'Hellix-MediumItalic',
+                                                            fontSize: 16.0,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 8.0,
+                                                ),
+                                                RatingBar.builder(
+                                                  initialRating: 4,
+                                                  minRating: 1,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  updateOnDrag: true,
+                                                  unratedColor: Colors.grey,
+                                                  itemCount:
+                                                      5, //todo how to give rate
+                                                  itemSize: 15,
+                                                  itemBuilder: (context, _) =>
+                                                      Icon(Icons.star,
+                                                          color: Colors
+                                                              .orange[900]),
+                                                  onRatingUpdate: (rating) {
+                                                    // print(rating);
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  height: 8.0,
                                                 ),
                                                 Text(
-                                                  "${freshRecipesProvide.freshList![index].time.toString()} mins",
+                                                  "${freshRecipesProvide.freshList![index].calories!}  Calories",
                                                   style: TextStyle(
-                                                      fontSize: 13.0,
-                                                      color: Colors.grey[500]),
+                                                      color: Colors.orange[900],
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                                 ),
                                                 const SizedBox(
-                                                  width: 16.0,
+                                                  height: 8.0,
                                                 ),
                                                 Row(
                                                   children: [
                                                     Icon(
-                                                      Icons
-                                                          .room_service_outlined,
+                                                      Icons.access_time,
                                                       color: Colors.grey[400],
                                                       size: 19.0,
                                                     ),
@@ -579,23 +566,47 @@ class _MainScreenState extends State<MainScreen> {
                                                       width: 5.0,
                                                     ),
                                                     Text(
-                                                      "${freshRecipesProvide.freshList![index].serving.toString()} Serving",
+                                                      "${freshRecipesProvide.freshList![index].time.toString()} mins",
                                                       style: TextStyle(
-                                                        fontSize: 13.0,
-                                                        color: Colors.grey[500],
-                                                      ),
+                                                          fontSize: 13.0,
+                                                          color:
+                                                              Colors.grey[500]),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 16.0,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .room_service_outlined,
+                                                          color:
+                                                              Colors.grey[400],
+                                                          size: 19.0,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5.0,
+                                                        ),
+                                                        Text(
+                                                          "${freshRecipesProvide.freshList![index].serving.toString()} Serving",
+                                                          style: TextStyle(
+                                                            fontSize: 13.0,
+                                                            color: Colors
+                                                                .grey[500],
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
                                               ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                // ),
                               );
                             },
                           ),
@@ -663,10 +674,11 @@ class _MainScreenState extends State<MainScreen> {
                     //     child:
 
                     Container(
-                  color: Colors.grey[200], // color of background
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   margin: const EdgeInsets.only(right: 20.0, top: 10, left: 20),
-                  // decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   child: Row(
                     children: [
                       Image.asset(
@@ -681,13 +693,39 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Breakfast",
-                                style: TextStyle(
-                                    fontFamily: 'Hellix-MediumItalic',
-                                    fontSize: 13.0,
-                                    color: Colors.cyan[700],
-                                    fontWeight: FontWeight.normal),
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Breakfast",
+                                        style: TextStyle(
+                                            fontFamily: 'Hellix-MediumItalic',
+                                            fontSize: 13.0,
+                                            color: Colors.cyan[700],
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      const SizedBox(
+                                        width: 130,
+                                      ),
+                                      InkWell(
+                                          onTap: () {
+                                            toggleFavorite();
+                                          },
+                                          child: (favorite
+                                              ? const Icon(
+                                                  Icons.favorite_border_rounded,
+                                                  size: 30,
+                                                  color: Colors.grey,
+                                                )
+                                              : const Icon(
+                                                  Icons.favorite_rounded,
+                                                  size: 30,
+                                                  color: Colors.orange,
+                                                ))),
+                                    ],
+                                  ),
+                                ],
                               ),
                               const SizedBox(
                                 height: 6.0,
@@ -712,29 +750,25 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      // List.generate(5, (index) =>   Icon(Icons.star,color: Colors.orange[800],),),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.orange[800],
-                                        size: 16,
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.orange[800],
-                                        size: 16,
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.orange[800],
-                                        size: 16,
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.orange[800],
-                                        size: 16,
+                                      RatingBar.builder(
+                                        initialRating: 4,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        updateOnDrag: true,
+                                        unratedColor: Colors.grey,
+                                        itemCount: 5, //todo how to give rate
+                                        itemSize: 15,
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.orange[900],
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          // print(rating);
+                                        },
                                       ),
                                       const SizedBox(
-                                        width: 6.0,
+                                        width: 8.0,
                                       ),
                                       Text(
                                         "120 Calories",
@@ -793,51 +827,37 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          height: 96.0,
-                          width: 28.0,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.favorite_border,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
-                    // ), // ),
                   ),
                 );
               }, //return to container two
             ),
 
             //todo enum
-            FlutGroupedButtons<String>(
-                // isRadio: true,
-                data: MealType.values.map((e) => e.name).toList(),
-                onChanged: (name) {
-                  print(name);
-                }),
-            Center(
-              child: ElevatedButton(
-                  onPressed: () async {
-                    OverlayLoadingProgress.start();
-                    FirebaseFirestore.instance.collection('ads').add({
-                      "title": "Chicken With Wheat Bread",
-                      "image":
-                          "https://images.pexels.com/photos/2741448/pexels-photo-2741448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                    });
-                    OverlayLoadingProgress.stop();
-
-                    // Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
-                    // NavigationUtils.push(
-                    //     context: context, page: const PageViewPage());
-                  },
-                  child: const Text('Add')),
-            ),
+            // FlutGroupedButtons<String>(
+            //     // isRadio: true,
+            //     data: MealType.values.map((e) => e.name).toList(),
+            //     onChanged: (name) {
+            //       print(name);
+            //     }),
+            //todo button el ta7ta
+            // Center(
+            //   child: ElevatedButton(
+            //       onPressed: () async {
+            //         OverlayLoadingProgress.start();
+            //         FirebaseFirestore.instance.collection('ads').add({
+            //           "title": "Chicken With Wheat Bread",
+            //           "image":
+            //               "https://images.pexels.com/photos/2741448/pexels-photo-2741448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            //         });
+            //         OverlayLoadingProgress.stop();
+            //
+            //         // Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
+            //         // NavigationUtils.push(
+            //         //     context: context, page: const PageViewPage());
+            //       },
+            //       child: const Text('Add')),
+            // ),
           ], //children
         ),
       ),

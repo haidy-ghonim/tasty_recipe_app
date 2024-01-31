@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasty_recipe_app/pages/utils/toast_message_status.dart';
+import 'package:tasty_recipe_app/utils/toast_message_status.dart';
 
 class ToastMessageWidget extends StatelessWidget {
   final ToastMessageStatus toastMessageStatus;
