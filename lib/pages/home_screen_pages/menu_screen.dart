@@ -19,9 +19,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.orangeAccent, //todo
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
         elevation: 0,
         leading: const Padding(
           padding: EdgeInsets.only(left: 15.0, top: 5, bottom: 5),
@@ -43,7 +41,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               subtitle: Text(
                 'View Profile',
-                style: TextStyle(fontSize: 9),
+                style: TextStyle(fontSize: 12),
               ),
             ),
           ],
