@@ -718,10 +718,10 @@ class _MainScreenState extends State<MainScreen> {
                                                   size: 30,
                                                   color: Colors.grey,
                                                 )
-                                              : const Icon(
+                                              :  Icon(
                                                   Icons.favorite_rounded,
                                                   size: 30,
-                                                  color: Colors.orange,
+                                                  color: Colors.orange[900],
                                                 ))),
                                     ],
                                   ),
