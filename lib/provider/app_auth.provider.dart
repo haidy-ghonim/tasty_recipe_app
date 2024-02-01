@@ -11,6 +11,7 @@ class AppAuthProvider extends ChangeNotifier {
   TextEditingController? emailController;
   TextEditingController? passwordController;
   TextEditingController? firstnameController;
+  // TextEditingController? forgetpasswordController;
   bool obsecureText = true;
 
   void providerInit() {
@@ -18,6 +19,7 @@ class AppAuthProvider extends ChangeNotifier {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     firstnameController = TextEditingController();
+    // forgetpasswordController=TextEditingController();
   }
 
   void providerDispose() {
@@ -26,6 +28,7 @@ class AppAuthProvider extends ChangeNotifier {
     formKey = null;
     firstnameController = null;
     obsecureText = false;
+    // forgetpasswordController=null;
   }
 
   void toggleObsecure() {

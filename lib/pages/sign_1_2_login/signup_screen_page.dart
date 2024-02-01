@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/sign_1_2_login/signin_screen_page.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
@@ -195,8 +196,38 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                             const SizedBox(
                               height: 40,
                             ),
+
                             const SizedBox(
-                              height: 190,
+                              height: 30,
+                            ),
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  LottieBuilder.network(
+                                    'https://lottie.host/37516613-a142-495d-8cd5-b90aece34349/ZfzFpLuLcO.json',
+                                    // height: 60,
+                                    width: 60,
+                                  ),
+                                  LottieBuilder.network(
+                                    'https://lottie.host/a8627238-404f-4966-8fa5-4cddcfdc4c91/EDMYUBT5pA.json',
+                                    // height: 40,
+                                    width: 60,
+                                  ),
+                                  LottieBuilder.network(
+                                    // 'https://lottie.host/0785019d-c827-40c3-b4d7-e60d7775f3d8/lxGbFlPDQA.json',
+                                    'https://lottie.host/61cb0dff-ab4c-4056-9205-fe331421538f/ChJMUbcauq.json',
+                                    // height: 40,
+                                    width: 60,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
+
+                            const SizedBox(
+                              height: 50,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

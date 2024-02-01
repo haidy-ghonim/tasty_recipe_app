@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/sign_1_2_login/signup_screen_page.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
@@ -148,6 +149,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                 height: 20,
                               ),
 
+                              //todo firbase forgot password
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -197,8 +199,34 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                   ),
                                 ),
                               ),
+
                               const SizedBox(
-                                height: 150,
+                                height: 40,
+                              ),
+                              Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    LottieBuilder.network(
+                                      'https://lottie.host/37516613-a142-495d-8cd5-b90aece34349/ZfzFpLuLcO.json',
+                                      // height: 60,
+                                      width: 60,
+                                    ),
+                                    LottieBuilder.network(
+                                      'https://lottie.host/a8627238-404f-4966-8fa5-4cddcfdc4c91/EDMYUBT5pA.json',
+                                      // height: 40,
+                                      width: 60,
+                                    ),
+                                    LottieBuilder.network(
+                                      'https://lottie.host/61cb0dff-ab4c-4056-9205-fe331421538f/ChJMUbcauq.json',
+                                      // height: 40,
+                                      width: 60,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 160,
                               ),
                               Container(
                                 alignment: Alignment.bottomCenter,
@@ -240,45 +268,6 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
             ),
           ],
         ),
-
-        //                           Row(
-        //                             mainAxisAlignment: MainAxisAlignment.center,
-        //                             children: [
-        //                               const Text(
-        //                                 'Donot have an account?',
-        //                                 style: TextStyle(
-        //                                     color: Colors.grey, fontSize: 16),
-        //                               ),
-        //                               InkWell(
-        //                                 onTap: () {
-        //                                   Navigator.push(
-        //                                       context,
-        //                                       MaterialPageRoute(
-        //                                           //RegisterPage
-        //                                           builder: (_) =>
-        //                                               const SignUpScreenPage()));
-        //                                 },
-        //                                 child: Text(
-        //                                   ' Register.',
-        //                                   style: TextStyle(
-        //                                       color: Colors.orange[800],
-        //                                       fontSize: 16),
-        //                                 ),
-        //                               ),
-        //                             ],
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                 ],
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }
