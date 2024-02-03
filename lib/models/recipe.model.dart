@@ -1,25 +1,31 @@
 class RecipeModel {
-  List<dynamic>? Ingredients;
-  String? title;
-  String? image;
-  int? time;
-  int? review;
-  int? serving;
+  List<dynamic>? ingredients;
+  num? calories;
   String? description;
+  String? image;
+  bool? isActive;
   String? mealType;
-  int? calories;
+  num? reviews;
+  num? rating;
+  String? title;
+  num? totalTime;
+  num? serving;
   List<String>? users_ids;
   String? docId;
+  List<dynamic>? directions;
 
   RecipeModel();
   RecipeModel.fromJson(Map<String, dynamic> data, [String? id]) {
     docId = id;
-    Ingredients = data['Ingredients'];
+    directions = data['directions'];
+    ingredients = data['ingredients'];
+    isActive = data['isActive'];
     title = data['title'];
     image = data['image'];
-    time = data['time'];
+    totalTime = data['totalTime'];
     description = data['description'];
-    review = data['review'];
+    reviews = data['reviews'];
+    rating = data['rating'];
     serving = data['serving'];
     mealType = data['mealType'];
     calories = data['calories'];

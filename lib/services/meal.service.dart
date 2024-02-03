@@ -1,3 +1,3 @@
-enum MealType { breakfast, launch, dinner, }
+enum MealType { BreakFast,Launch, Dinner, }
 
 //check inbox

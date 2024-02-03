@@ -226,7 +226,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 160,
+                                height: 100,
                               ),
                               Container(
                                 alignment: Alignment.bottomCenter,

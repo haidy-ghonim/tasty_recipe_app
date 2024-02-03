@@ -8,7 +8,7 @@ import 'package:tasty_recipe_app/firebase_options.dart';
 import 'package:tasty_recipe_app/pages/splash_screen_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
-import 'package:tasty_recipe_app/provider/fresh_recipes.provider.dart';
+import 'package:tasty_recipe_app/provider/recipes.provider.dart';
 
 void main() async {
   //shared preference by get-it
@@ -24,11 +24,13 @@ void main() async {
     print('=======Error in init prefernces ${e}====');
   }
 
-  runApp( MultiProvider(providers: [
+  runApp(
+    MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => AppAuthProvider()),
       ChangeNotifierProvider(create: (_) => AdsProvider()),
-    ChangeNotifierProvider(create: (_) => FreshRecipesProvider()),
-   ], child: const MyApp()),);
+      ChangeNotifierProvider(create: (_) => FreshRecipesProvider()),
+    ], child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -39,14 +41,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return OverlayKit(
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home:  const SplashScreenPage(),
-      
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const SplashScreenPage(),
       ),
     );
   }

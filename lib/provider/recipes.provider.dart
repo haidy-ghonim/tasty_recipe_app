@@ -12,16 +12,19 @@ class FreshRecipesProvider extends ChangeNotifier {
   List<RecipeModel>? get freshList => _freshList;
   int sliderIndex = 0;
 
-  Future<void> getTodayRecipes() async {
+  Future<void> getFreshRecipes() async {
     try {
       var result =
-          await FirebaseFirestore.instance.collection('today_recipes').get();
+          await FirebaseFirestore.instance.collection('recipes').
+          where('isActive',isEqualTo: false).limit(10)
+          .get();
 
       if (result.docs.isNotEmpty) {
-        _freshList = List<RecipeModel>.from(
+        _freshList =
+        List<RecipeModel>.from(
             result.docs.map((doc) => RecipeModel.fromJson(doc.data(), doc.id)));
       } else {
-        _freshList = []; //send list empty
+        _freshList = [];//send list empty
       }
       notifyListeners();
     } catch (e) {
@@ -30,26 +33,27 @@ class FreshRecipesProvider extends ChangeNotifier {
     }
   }
 
-  List<RecipeModel>? _favouriteList;
+  List<RecipeModel>? _recommendedList;
 
-  List<RecipeModel>? get favouriteList => _favouriteList;
-  Future<void> getIngredient() async {
+  List<RecipeModel>? get recommendedList => _recommendedList;
+  Future<void> getRecommended() async {
     try {
       var result = await FirebaseFirestore.instance
-          .collection('today_recipes')
-          .where('users_ids', arrayContains:FirebaseAuth.instance.currentUser?.uid )
+          .collection('recipes')
+          // .where('users_ids', arrayContains:FirebaseAuth.instance.currentUser?.uid )
+      .where('isActive',isEqualTo: true)
           .get();
       if (result.docs.isNotEmpty) {
-        _favouriteList = List<RecipeModel>.from(
+        _recommendedList = List<RecipeModel>.from(
             result.docs.map((doc) =>
                 RecipeModel.fromJson(doc.data(), doc.id)));
         notifyListeners();
       } else {
-        _favouriteList = []; //send list empty
+        _recommendedList = [];//send list empty
       }
       notifyListeners();
     } catch (e) {
-      _favouriteList = [];
+      _recommendedList= [];
       notifyListeners();
     }
   }
@@ -61,7 +65,7 @@ class FreshRecipesProvider extends ChangeNotifier {
       OverlayLoadingProgress.start();
       if (isAdd) {
         await FirebaseFirestore.instance
-            .collection('today_recipes')
+            .collection('recipes')
             .doc(ingredientId)
             .update({
           "users_ids":
@@ -69,7 +73,7 @@ class FreshRecipesProvider extends ChangeNotifier {
         });
       } else {
         await FirebaseFirestore.instance
-            .collection('today_recipes')
+            .collection('recipes')
             .doc(ingredientId)
             .update({
           "users_ids":
@@ -77,7 +81,7 @@ class FreshRecipesProvider extends ChangeNotifier {
         });
       }
       OverlayLoadingProgress.stop();
-      getIngredient();
+      // getIngredient();
     } catch (e) {
       OverlayLoadingProgress.stop();
       OverlayToastMessage.show(
