@@ -24,7 +24,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
 //check to user
   void initSplash() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 14));
     // listen in and out
     _listener = FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user == null) {
@@ -53,7 +53,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       body: Center(
         child: Center(
           child: Lottie.network(
-            'https://lottie.host/4d024b33-296f-4896-a687-03467d77a699/7LSwabKqqe.json',
+            'https://lottie.host/876b36e1-7af8-4f14-beed-6281b33ebb4a/XslptGNdqS.json'
+            // 'https://lottie.host/4d024b33-296f-4896-a687-03467d77a699/7LSwabKqqe.json',
           ),
         ),
       ),
@@ -61,17 +62,3 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   }
 }
 
-////check to user
-//   void initSplash() async {
-//     await Future.delayed(Duration(seconds: 6));
-//     //checkuser mogawad or not
-//     if (PreferencesService.checkUser()) {
-//       //go to  SignupPage -first page
-//       Navigator.pushReplacement(
-//           context, MaterialPageRoute(builder: (_) => LoginPage()));
-//     } else {
-//       //go to login page
-//       Navigator.pushReplacement(
-//           context, MaterialPageRoute(builder: (_) => SignInPage()));
-//     }
-//   }

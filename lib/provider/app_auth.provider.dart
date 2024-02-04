@@ -108,6 +108,8 @@ class AppAuthProvider extends ChangeNotifier {
 
         if (credentials.user != null) {
           await credentials.user?.updateDisplayName(firstnameController!.text);
+          // await credentials.user?.updatePhotoURL(firstnameController!.text);
+          // FirebaseAuth.instance.currentUser?.updatePhotoURL('');
           OverlayLoadingProgress.stop();
           providerDispose();
 
@@ -136,4 +138,3 @@ class AppAuthProvider extends ChangeNotifier {
     OverlayLoadingProgress.stop();
   }
 }
-//login

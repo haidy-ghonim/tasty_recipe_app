@@ -873,30 +873,7 @@ class _MainScreenState extends State<MainScreen> {
                                 }, //return to container two
                               ),
 
-                              //                   //todo enum
-                              //                   // FlutGroupedButtons<String>(
-                              //                   //     // isRadio: true,
-                              //                   //     data: MealType.values.map((e) => e.name).toList(),
-                              //                   //     onChanged: (name) {
-                              //                   //       print(name);
-                              //                   //     }),
-                              //                   //todo button el ta7ta
-                              //                   // Center(
-                              //                   //   child: ElevatedButton(
-                              //                   //       onPressed: () async {
-                              //                   //         OverlayLoadingProgress.start();
-                              //                   //         FirebaseFirestore.instance.collection('ads').add({
-                              //                   //           "title": "Chicken With Wheat Bread",
-                              //                   //           "image":
-                              //                   //               "https://images.pexels.com/photos/2741448/pexels-photo-2741448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                              //                   //         });
-                              //                   //         OverlayLoadingProgress.stop();
-                              //                   //
-                              //                   //         // Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
-                              //                   //         // NavigationUtils.push(
-                              //                   //         //     context: context, page: const PageViewPage());
-                              //                   //       },
-                              //                   //       child: const Text('Add')),
+
                             ),
             ),
           ], //children

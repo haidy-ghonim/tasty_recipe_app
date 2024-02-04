@@ -8,6 +8,7 @@ import 'package:tasty_recipe_app/firebase_options.dart';
 import 'package:tasty_recipe_app/pages/splash_screen_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
+import 'package:tasty_recipe_app/provider/ingredient_provider.dart';
 import 'package:tasty_recipe_app/provider/recipes.provider.dart';
 
 void main() async {
@@ -29,6 +30,8 @@ void main() async {
       ChangeNotifierProvider(create: (_) => AppAuthProvider()),
       ChangeNotifierProvider(create: (_) => AdsProvider()),
       ChangeNotifierProvider(create: (_) => FreshRecipesProvider()),
+      ChangeNotifierProvider(create: (_) => IngredientsProvider()),
+
     ], child: const MyApp()),
   );
 }

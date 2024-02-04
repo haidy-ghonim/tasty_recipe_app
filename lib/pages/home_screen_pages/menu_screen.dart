@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/Favourites_page.dart';
+import 'package:tasty_recipe_app/pages/ingredient_page.dart';
 import 'package:tasty_recipe_app/pages/recently.viewed_page.dart';
 import 'package:tasty_recipe_app/pages/settings_page.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
@@ -47,7 +48,6 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
       ),
-
       body: Container(
         margin: const EdgeInsets.only(left: 2),
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 100),
@@ -73,6 +73,15 @@ class _MenuScreenState extends State<MenuScreen> {
                       MaterialPageRoute(
                           builder: (_) => const FavouritesPage()));
                 }),
+            ListTile(
+              leading: const Icon(
+                Icons.fastfood_sharp,
+              ),
+              title: const Text('Ingredients'),
+              onTap: () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                      builder: (context) => const IngredientPage())),
+            ),
             ListTile(
               leading: const Icon(
                 Icons.play_arrow_outlined,

@@ -117,9 +117,9 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                       (value?.isEmpty ?? false)) {
                                     return 'password is required';
                                   }
-                                  if (value.length < 6) {
-                                    return 'password is too short';
-                                  }
+                                  // if (value.length < 10) {
+                                  //   return 'password is too short';
+                                  // }
                                 },
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
