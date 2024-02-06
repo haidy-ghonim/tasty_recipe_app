@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
-import 'package:tasty_recipe_app/models/ad.model.dart';
+import 'package:tasty_recipe_app/models/recipe.model.dart';
 import 'package:tasty_recipe_app/pages/detailspage/details_screen.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
+import 'package:tasty_recipe_app/pages/see.all_recipes_page.dart';
 import 'package:tasty_recipe_app/provider/ads_provider.dart';
 import 'package:tasty_recipe_app/provider/recipes.provider.dart';
 
@@ -19,18 +21,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool favorite = true;
-
-  void toggleFavorite() {
-    favorite = !favorite;
-    setState(() {});
-  }
-
-  // List<Ad> freshList = [];
-  // List <Ad> recommendedList = [];
-
-  List<Ad> adsList = [];
-
   @override
   void initState() {
     init();
@@ -52,10 +42,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   final int _currentPosition = 0;
-
   String getPrettyCurrPosition() {
     return (_currentPosition + 1.0).toStringAsPrecision(3);
   }
+
+  RecipeModel? recipemodel;
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +134,7 @@ class _MainScreenState extends State<MainScreen> {
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(14.0)),
                       child: TextField(
-                        onTap: () {}, //search same thing make page
+                        onTap: () {}, //todo search same thing make page
                         cursorColor: Colors.grey[500],
                         decoration: const InputDecoration(
                           border: InputBorder.none,
@@ -350,8 +341,15 @@ class _MainScreenState extends State<MainScreen> {
                       fontStyle: FontStyle.normal,
                     ),
                   ),
+
+                  //todo see all
                   GestureDetector(
-                    onTap: () => print("see all fresh recipes"),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const AllRecipesPage())),
+
+                    // print("see all fresh recipes"),
                     child: Text(
                       "See All",
                       style: TextStyle(
@@ -376,229 +374,262 @@ class _MainScreenState extends State<MainScreen> {
 
             // moram3at el feha el kalam
             Consumer<FreshRecipesProvider>(
-              builder: (context, freshRecipesProvide, _) => freshRecipesProvide
-                          .freshList ==
-                      null
-                  ? const CircularProgressIndicator()
-                  : (freshRecipesProvide.freshList?.isEmpty ?? false)
-                      ? const Text('NO DATA FOUND')
-                      : Container(
-                          height: 340,
-                          padding: const EdgeInsets.only(
-                              left: 10, top: 0, right: 10, bottom: 0),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: freshRecipesProvide
-                                .freshList!.length, //todo fresh list besa
-                            itemBuilder: (context, index) {
-                              //todo el page el feha back plate
-                              return GestureDetector(
-                                onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsScreen(
-                                        freshRecipesProvide
-                                            .freshList![index].image!),
-                                  ),
-                                ),
-                                child: Card(
-                                  color: Colors.grey[100],
-                                  // elevation: 2,
-                                  child: Container(
-                                    height: 200,
-                                    width: 210,
-                                    // margin: const EdgeInsets.only(
-                                    //     right: 10.0, left: 10.0),
-                                    decoration: BoxDecoration(
-                                      // color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(15.0),
+              builder: (context, freshRecipesProvider, _) =>
+                  freshRecipesProvider.freshList == null
+                      ? const CircularProgressIndicator()
+                      : (freshRecipesProvider.freshList?.isEmpty ?? false)
+                          ? const Text('NO DATA FOUND')
+                          : Container(
+                              height: 340,
+                              padding: const EdgeInsets.only(
+                                  left: 10, top: 0, right: 10, bottom: 0),
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: freshRecipesProvider
+                                    .freshList!.length, //todo fresh list besa
+                                itemBuilder: (context, index) {
+                                  //todo el page el feha back plate
+                                  return GestureDetector(
+                                    onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailsScreen(
+                                            freshRecipesProvider
+                                                .freshList![index].image!),
+                                      ),
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Stack(
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(20),
-                                              child: Image.network(
-                                                freshRecipesProvide
-                                                    .freshList![index].image!,
-                                                fit: BoxFit.contain,
-                                                width: 210,
-                                              ),
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Positioned(
-                                                // top: 6,
-                                                // left: 7,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    toggleFavorite();
-                                                  },
-                                                  child: (favorite
-                                                      ? const Icon(
-                                                    Icons
-                                                        .favorite_border_rounded,
-                                                    size: 30,
-                                                    color: Colors.grey,
-                                                  )
-                                                      : Icon(
-                                                    Icons.favorite_rounded,
-                                                    size: 30,
-                                                    color: Colors.orange[900],
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                    child: Card(
+                                      color: Colors.grey[100],
+                                      // elevation: 2,
+                                      child: Container(
+                                        height: 200,
+                                        width: 210,
+                                        // margin: const EdgeInsets.only(
+                                        //     right: 10.0, left: 10.0),
+                                        decoration: BoxDecoration(
+                                          // color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
                                         ),
-                                        Positioned(
-                                          //top: 150,
-                                          // left: 20,
-                                          child:
-
-                                          Padding(
-                                          //   padding: const EdgeInsets.symmetric(
-                                          //       horizontal: 20),
-                                          padding: const EdgeInsets.only(
-                                            left: 14, top: 20, right: 10, bottom: 0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        child: Column(
+                                          children: [
+                                            Stack(
+                                              clipBehavior: Clip.none,
                                               children: [
-                                                Text(
-                                                  freshRecipesProvide
-                                                      .freshList![index]
-                                                      .mealType!,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                    'Hellix-MediumItalic',
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontStyle: FontStyle.normal,
-                                                    color: Colors.cyan[700],
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  child: Image.network(
+                                                    freshRecipesProvider
+                                                        .freshList![index]
+                                                        .image!,
+                                                    fit: BoxFit.contain,
+                                                    width: 210,
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 16.0,
-                                                ),
-                                                Container(
-                                                  width: 300,
-                                                  child: Row(
-                                                    children: [
-                                                      Flexible(
-                                                        child: Text(
-                                                          freshRecipesProvide
-                                                              .freshList![index]
-                                                              .title!,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis, //todo bafakera akafalha
-                                                          style:
-                                                          const TextStyle(
-                                                            fontFamily:
-                                                            'Hellix-MediumItalic',
-                                                            fontSize: 16.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Positioned(
+                                                    // top: 6,
+                                                    // left: 7,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        freshRecipesProvider.addRecipeToUserFavourite(
+                                                            freshRecipesProvider
+                                                                .freshList![
+                                                                    index]
+                                                                .docId!,
+                                                            !(freshRecipesProvider
+                                                                    .freshList![
+                                                                        index]
+                                                                    .users_ids
+                                                                    ?.contains(FirebaseAuth
+                                                                        .instance
+                                                                        .currentUser
+                                                                        ?.uid) ??
+                                                                false));
+                                                      },
+                                                      child: (freshRecipesProvider
+                                                                  .freshList![
+                                                                      index]
+                                                                  .users_ids
+                                                                  ?.contains(FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser
+                                                                      ?.uid) ??
+                                                              false
+                                                          ? const Icon(
+                                                              Icons
+                                                                  .favorite_border_rounded,
+                                                              size: 30,
+                                                              color:
+                                                                  Colors.grey,
+                                                            )
+                                                          : const Icon(
+                                                              Icons
+                                                                  .favorite_border_rounded,
+                                                              size: 30,
+                                                              color:
+                                                                  Colors.grey,
+                                                            )),
+                                                    ),
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                ),
-                                                RatingBar.builder(
-                                                  initialRating: 4,
-                                                  minRating: 1,
-                                                  direction: Axis.horizontal,
-                                                  allowHalfRating: true,
-                                                  updateOnDrag: true,
-                                                  unratedColor: Colors.grey,
-                                                  itemCount:
-                                                  5, //todo how to give rate
-                                                  itemSize: 15,
-                                                  itemBuilder: (context, _) =>
-                                                      Icon(Icons.star,
-                                                          color: Colors
-                                                              .orange[900]),
-                                                  onRatingUpdate: (rating) {
-                                                    // print(rating);
-                                                  },
-                                                ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                ),
-                                                Text(
-                                                  "${freshRecipesProvide.freshList![index].calories!}  Calories",
-                                                  style: TextStyle(
-                                                      color: Colors.orange[900],
-                                                      fontSize: 14.0,
-                                                      fontWeight:
-                                                      FontWeight.w400),
-                                                ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                ),
-                                                Row(
+                                              ],
+                                            ),
+                                            Positioned(
+                                              //top: 150,
+                                              // left: 20,
+                                              child: Padding(
+                                                //   padding: const EdgeInsets.symmetric(
+                                                //       horizontal: 20),
+                                                padding: const EdgeInsets.only(
+                                                    left: 14,
+                                                    top: 20,
+                                                    right: 10,
+                                                    bottom: 0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Icon(
-                                                      Icons.access_time,
-                                                      color: Colors.grey[400],
-                                                      size: 19.0,
+                                                    Text(
+                                                      freshRecipesProvider
+                                                          .freshList![index]
+                                                          .mealType!,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Hellix-MediumItalic',
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        color: Colors.cyan[700],
+                                                      ),
                                                     ),
                                                     const SizedBox(
-                                                      width: 5.0,
+                                                      height: 16.0,
+                                                    ),
+                                                    Container(
+                                                      width: 300,
+                                                      child: Row(
+                                                        children: [
+                                                          Flexible(
+                                                            child: Text(
+                                                              freshRecipesProvider
+                                                                  .freshList![
+                                                                      index]
+                                                                  .title!,
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow
+                                                                  .ellipsis, //todo bafakera akafalha
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontFamily:
+                                                                    'Hellix-MediumItalic',
+                                                                fontSize: 16.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8.0,
+                                                    ),
+                                                    RatingBar.builder(
+                                                      initialRating: 4,
+                                                      minRating: 1,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      allowHalfRating: true,
+                                                      updateOnDrag: true,
+                                                      unratedColor: Colors.grey,
+                                                      itemCount:
+                                                          5, //todo how to give rate
+                                                      itemSize: 15,
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
+                                                              Icons.star,
+                                                              color: Colors
+                                                                  .orange[900]),
+                                                      onRatingUpdate: (rating) {
+                                                        // print(rating);
+                                                      },
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8.0,
                                                     ),
                                                     Text(
-                                                      "${freshRecipesProvide.freshList![index].totalTime.toString()} mins",
+                                                      "${freshRecipesProvider.freshList![index].calories!}  Calories",
                                                       style: TextStyle(
-                                                          fontSize: 13.0,
-                                                          color:
-                                                          Colors.grey[500]),
+                                                          color: Colors
+                                                              .orange[900],
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w400),
                                                     ),
                                                     const SizedBox(
-                                                      width: 16.0,
+                                                      height: 8.0,
                                                     ),
                                                     Row(
                                                       children: [
                                                         Icon(
-                                                          Icons
-                                                              .room_service_outlined,
+                                                          Icons.access_time,
                                                           color:
-                                                          Colors.grey[400],
+                                                              Colors.grey[400],
                                                           size: 19.0,
                                                         ),
                                                         const SizedBox(
-                                                          width: 3.0,
+                                                          width: 5.0,
                                                         ),
                                                         Text(
-                                                          "${freshRecipesProvide.freshList![index].serving.toString()} Serving",
+                                                          "${freshRecipesProvider.freshList![index].totalTime.toString()} mins",
                                                           style: TextStyle(
-                                                            fontSize: 12.0,
-                                                            color: Colors
-                                                                .grey[500],
-                                                          ),
+                                                              fontSize: 13.0,
+                                                              color: Colors
+                                                                  .grey[500]),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 16.0,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .room_service_outlined,
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              size: 19.0,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 3.0,
+                                                            ),
+                                                            Text(
+                                                              "${freshRecipesProvider.freshList![index].serving.toString()} Serving",
+                                                              style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                color: Colors
+                                                                    .grey[500],
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
                                                   ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                  );
+                                },
+                              ),
+                            ),
             ),
             const SizedBox(
               height: 16,
@@ -620,8 +651,13 @@ class _MainScreenState extends State<MainScreen> {
                       fontStyle: FontStyle.normal,
                     ),
                   ),
+
+                  //todo see all
                   GestureDetector(
-                    onTap: () => print("see all Recommended"),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const AllRecipesPage())),
                     child: Text(
                       "See All",
                       style: TextStyle(
@@ -652,196 +688,200 @@ class _MainScreenState extends State<MainScreen> {
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount:
-                                    freshRecipesProvider.recommendedList!.length,
+                                itemCount: freshRecipesProvider
+                                    .recommendedList!.length,
                                 padding: EdgeInsets.zero,
                                 itemBuilder: (context, index) {
                                   //todo el page el feha back plate
-                                  return
-                                      GestureDetector(onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                DetailsScreen
-                                                (freshRecipesProvider.recommendedList![index].title))),
-                                          child:
-
-                                      Card(
-                                    color: Colors.grey[100],
-                                    child: Container(
-                                      height: 150,
-                                      width: 80,
-                                      margin: const EdgeInsets.only(
-                                          right: 10.0, top: 5, left: 10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.network(
-                                            freshRecipesProvider
-                                                .recommendedList![index].image!,
-                                            height: 120.0,
-                                            width: 100.0,
-                                            fit: BoxFit.contain,
+                                  return GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailsScreen(
+                                                      freshRecipesProvider
+                                                          .recommendedList![
+                                                              index]
+                                                          .title))),
+                                      child: Card(
+                                        color: Colors.grey[100],
+                                        child: Container(
+                                          height: 150,
+                                          width: 80,
+                                          margin: const EdgeInsets.only(
+                                              right: 10.0, top: 5, left: 10),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: Image.network(
+                                                  freshRecipesProvider
+                                                      .recommendedList![index]
+                                                      .image!,
+                                                  height: 120.0,
+                                                  width: 100.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       horizontal: 10.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      //todo name meal type
-                                                      Text(
-                                                        freshRecipesProvider
-                                                            .recommendedList![index]
-                                                            .mealType!,
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Hellix-MediumItalic',
-                                                            fontSize: 13.0,
-                                                            color: Colors
-                                                                .cyan[700],
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal),
-                                                      ),
-
-                                                      // const SizedBox(
-                                                      //   height: 40,
-                                                      //   width: 120,
-                                                      // ),
-                                                      Spacer(),
-                                                      Row(
-                                                        children: [
-                                                          InkWell(
-                                                              onTap: () {
-                                                                toggleFavorite();
-                                                              },
-                                                              child: (favorite
-                                                                  ? const Icon(
-                                                                      Icons
-                                                                          .favorite_border_rounded,
-                                                                      size: 30,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    )
-                                                                  : Icon(
-                                                                      Icons
-                                                                          .favorite_rounded,
-                                                                      size: 30,
-                                                                      color: Colors
-                                                                              .orange[
-                                                                          900],
-                                                                    ))),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 2.0,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Flexible(
-                                                        child: Text(
-                                                          freshRecipesProvider
-                                                              .recommendedList![index]
-                                                              .title!,
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: const TextStyle(
-                                                              fontSize: 16.0,
-                                                              fontFamily:
-                                                                  "LibreBaskerville"),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 6.0,
-                                                  ),
-                                                  Row(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          RatingBar.builder(
-                                                            initialRating: 4,
-                                                            minRating: 1,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            allowHalfRating:
-                                                                true,
-                                                            updateOnDrag: true,
-                                                            unratedColor:
-                                                                Colors.grey,
-                                                            itemCount:
-                                                                5, //todo how to give rate
-                                                            itemSize: 15,
-                                                            itemBuilder:
-                                                                (context, _) =>
-                                                                    Icon(
-                                                              Icons.star,
-                                                              color: Colors
-                                                                  .orange[900],
-                                                            ),
-                                                            onRatingUpdate:
-                                                                (rating) {
-                                                              // print(rating);
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 8.0,
-                                                          ),
+                                                          //todo name meal type
                                                           Text(
-                                                            "${freshRecipesProvider.recommendedList![index].calories!}  Calories",
+                                                            freshRecipesProvider
+                                                                .recommendedList![
+                                                                    index]
+                                                                .mealType!,
                                                             style: TextStyle(
+                                                                fontFamily:
+                                                                    'Hellix-MediumItalic',
+                                                                fontSize: 13.0,
                                                                 color: Colors
-                                                                        .orange[
-                                                                    900],
-                                                                fontSize: 14.0,
+                                                                    .cyan[700],
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w400),
+                                                                        .normal),
+                                                          ),
+                                                          const Spacer(),
+                                                          Row(
+                                                            children: [
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    freshRecipesProvider.addRecipeToUserFavourite(
+                                                                        freshRecipesProvider
+                                                                            .recommendedList![
+                                                                                index]
+                                                                            .docId!,
+                                                                        !(freshRecipesProvider.recommendedList![index].users_ids?.contains(FirebaseAuth.instance.currentUser?.uid) ??
+                                                                            false));
+                                                                  },
+                                                                  child: (freshRecipesProvider
+                                                                              .recommendedList![index]
+                                                                              .users_ids
+                                                                              ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
+                                                                          false
+                                                                      ? Icon(
+                                                                          Icons
+                                                                              .favorite_rounded,
+                                                                          size:
+                                                                              30,
+                                                                          color:
+                                                                              Colors.orange[900],
+                                                                        )
+                                                                      : const Icon(
+                                                                          Icons
+                                                                              .favorite_border_rounded,
+                                                                          size:
+                                                                              30,
+                                                                          color:
+                                                                              Colors.grey,
+                                                                        ))),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 6.0,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.access_time,
-                                                        color: Colors.grey[400],
-                                                        size: 19.0,
+                                                      const SizedBox(
+                                                        height: 2.0,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Flexible(
+                                                            child: Text(
+                                                              freshRecipesProvider
+                                                                  .recommendedList![
+                                                                      index]
+                                                                  .title!,
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: const TextStyle(
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  fontFamily:
+                                                                      "LibreBaskerville"),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                       const SizedBox(
-                                                        width: 5.0,
+                                                        height: 6.0,
                                                       ),
-                                                      Text(
-                                                        "${freshRecipesProvider.recommendedList![index].totalTime.toString()} mins",
-                                                        style: TextStyle(
-                                                            fontSize: 13.0,
-                                                            color: Colors
-                                                                .grey[500]),
+                                                      Row(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              RatingBar.builder(
+                                                                initialRating:
+                                                                    4,
+                                                                minRating: 1,
+                                                                direction: Axis
+                                                                    .horizontal,
+                                                                allowHalfRating:
+                                                                    true,
+                                                                updateOnDrag:
+                                                                    true,
+                                                                unratedColor:
+                                                                    Colors.grey,
+                                                                itemCount:
+                                                                    5, //todo how to give rate
+                                                                itemSize: 15,
+                                                                itemBuilder:
+                                                                    (context,
+                                                                            _) =>
+                                                                        Icon(
+                                                                  Icons.star,
+                                                                  color: Colors
+                                                                          .orange[
+                                                                      900],
+                                                                ),
+                                                                onRatingUpdate:
+                                                                    (rating) {
+                                                                  // print(rating);
+                                                                },
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 8.0,
+                                                              ),
+                                                              Text(
+                                                                "${freshRecipesProvider.recommendedList![index].calories!}  Calories",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                            .orange[
+                                                                        900],
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
                                                       ),
                                                       const SizedBox(
-                                                        width: 16.0,
+                                                        height: 6.0,
                                                       ),
                                                       Row(
                                                         children: [
                                                           Icon(
-                                                            Icons
-                                                                .room_service_outlined,
+                                                            Icons.access_time,
                                                             color: Colors
                                                                 .grey[400],
                                                             size: 19.0,
@@ -850,30 +890,52 @@ class _MainScreenState extends State<MainScreen> {
                                                             width: 5.0,
                                                           ),
                                                           Text(
-                                                            "${freshRecipesProvider.recommendedList![index].serving.toString()} Serving",
+                                                            "${freshRecipesProvider.recommendedList![index].totalTime.toString()} mins",
                                                             style: TextStyle(
-                                                                fontSize: 10.0,
+                                                                fontSize: 13.0,
                                                                 color: Colors
                                                                     .grey[500]),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 16.0,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .room_service_outlined,
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                size: 19.0,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 5.0,
+                                                              ),
+                                                              Text(
+                                                                "${freshRecipesProvider.recommendedList![index].serving.toString()} Serving",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10.0,
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        500]),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
                                                     ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                        )
+                                        ),
+                                      )
                                       // )
-                                  );
+                                      );
                                 }, //return to container two
                               ),
-
-
                             ),
             ),
           ], //children

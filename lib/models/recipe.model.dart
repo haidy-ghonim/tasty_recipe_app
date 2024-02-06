@@ -1,5 +1,5 @@
 class RecipeModel {
-  List<dynamic>? ingredients;
+  List<String>? ingredients;
   num? calories;
   String? description;
   String? image;
@@ -10,15 +10,13 @@ class RecipeModel {
   String? title;
   num? totalTime;
   num? serving;
-  List<String>? users_ids;
+  List<String>? users_ids;//todo favourite user
   String? docId;
-  List<dynamic>? directions;
+  // Map<String, String>? directions;
 
   RecipeModel();
   RecipeModel.fromJson(Map<String, dynamic> data, [String? id]) {
     docId = id;
-    directions = data['directions'];
-    ingredients = data['ingredients'];
     isActive = data['isActive'];
     title = data['title'];
     image = data['image'];
@@ -32,5 +30,31 @@ class RecipeModel {
     users_ids = data['users_ids'] != null
         ? List<String>.from(data['users_ids'].map((e) => e.toString()))
         : null;
+    ingredients = data['ingredients']!= null
+        ? List<String>.from(data['ingredients'].map((e) => e.toString()))
+        : null;
+
+    // directions = data['directions'] != null
+    //     ? Map<String, String>.from(data['directions'])
+    //     : null;
+
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      // "directions": directions,
+      "mealType": mealType,
+      "serving": serving,
+      "rating": rating,
+      "reviews": reviews,
+      "description": description,
+      "totalTime": totalTime,
+      "image": image,
+      "ingredients": ingredients,
+      "title": title,
+      "isActive": isActive,
+      "calories": calories,
+      "users_ids": users_ids,
+    };
   }
 }

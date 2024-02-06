@@ -56,12 +56,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//SharedPreferences taraka
-//   try {
-//     PrefrencesService.prefs = await SharedPreferences.getInstance();
-//     if (PrefrencesService.prefs != null) {
-//       print('======= prefrences init successfully====');
-//     }
-//   } catch (e) {
-//     print('=======Error in init prefernces ${e}====');
-//   }

@@ -24,7 +24,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
 //check to user
   void initSplash() async {
-    await Future.delayed(const Duration(seconds: 14));
+    await Future.delayed(const Duration(seconds: 4));
     // listen in and out
     _listener = FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user == null) {

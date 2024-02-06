@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
-import 'package:tasty_recipe_app/pages/home_screen_pages/main_screen_page.dart';
 import 'package:tasty_recipe_app/provider/ingredient_provider.dart';
 
 class IngredientPage extends StatefulWidget {
@@ -13,8 +12,6 @@ class IngredientPage extends StatefulWidget {
 }
 
 class _IngredientPageState extends State<IngredientPage> {
-  // final FirebaseAuth auth = FirebaseAuth.instance;
-  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List ingredientsList = [];
 
   @override
@@ -31,8 +28,8 @@ class _IngredientPageState extends State<IngredientPage> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: IconButton(
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const FilterScreenPage())),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const FilterScreenPage())),
             icon: const Icon(Icons.arrow_back),
           ),
         ),

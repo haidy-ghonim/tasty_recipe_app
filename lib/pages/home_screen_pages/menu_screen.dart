@@ -50,7 +50,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       body: Container(
         margin: const EdgeInsets.only(left: 2),
-        padding: const EdgeInsets.fromLTRB(0, 0, 10, 100),
+        padding: const EdgeInsets.fromLTRB(0, 0, 10, 45),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

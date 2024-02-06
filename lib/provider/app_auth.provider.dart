@@ -108,8 +108,7 @@ class AppAuthProvider extends ChangeNotifier {
 
         if (credentials.user != null) {
           await credentials.user?.updateDisplayName(firstnameController!.text);
-          // await credentials.user?.updatePhotoURL(firstnameController!.text);
-          // FirebaseAuth.instance.currentUser?.updatePhotoURL('');
+          FirebaseAuth.instance.currentUser?.updatePhotoURL('');
           OverlayLoadingProgress.stop();
           providerDispose();
 
@@ -137,4 +136,49 @@ class AppAuthProvider extends ChangeNotifier {
     }
     OverlayLoadingProgress.stop();
   }
-}
+  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  //
+  // Future<void> updatePhotoURL(String photoURL) async {
+  //   try {
+  //     User? user = _firebaseAuth.currentUser;
+  //
+  //     await user?.updateProfile(photoURL: photoURL);
+  //
+  //     // Reload the user to get the updated information
+  //     await user?.reload();
+  //     user = _firebaseAuth.currentUser;
+  //
+  //     print('PhotoURL updated successfully');
+  //   } catch (e) {
+  //     print('Error updating PhotoURL: $e');
+  //   }
+  // }
+
+  // Future updateUserProfile(User user, String newUsername) async {
+  //   await _firestore.collection('users').doc(user.uid).update({
+  //     'username': newUsername,
+  //   });
+
+  // Future uploadProfilePicture(User user, File profilePicture) async {
+  //   final FirebaseStorage _storage = FirebaseStorage.instance;
+  //
+  //   UploadTask uploadTask = _storage
+  //       .ref()
+  //       .child('userProfilePictures/${user.uid}/profilePicture.jpg')
+  //       .putFile('profilePicture');
+  //
+  //   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+  //   String downloadURL = await taskSnapshot.ref.getDownloadURL();
+  //
+  //   return downloadURL;
+  // }
+
+
+
+
+
+  }
+
+
+
+

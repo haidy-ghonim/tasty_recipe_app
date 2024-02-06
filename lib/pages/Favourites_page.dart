@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
 import 'package:tasty_recipe_app/pages/home_screen_pages/home_first_screen.dart';
-import 'package:tasty_recipe_app/provider/recipes.provider.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({super.key});
@@ -28,7 +26,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      // backgroundColor: Colors.green,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
