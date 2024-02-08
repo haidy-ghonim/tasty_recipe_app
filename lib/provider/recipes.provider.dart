@@ -25,7 +25,6 @@ class FreshRecipesProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
   //****************
   //two action make in all and out
   Future<void> addRecipeToUserFavourite(String recipeId, bool isAdd) async {
@@ -105,7 +104,27 @@ class FreshRecipesProvider extends ChangeNotifier {
   }
 
   //***************
+  // open details in recipe
+  RecipeModel? openedRecipe;
+  Future<void> getSelectedRecipe(String recipeId) async{
+    try {
+          await FirebaseFirestore.instance
+          .collection('recipes')
+          .doc(recipeId)
+        .update({
+        "recentlyView":
+           FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+        });
+      notifyListeners();
+    } catch (e) {
+      print('>>>>>error in update recipe');
+    }
+  }
+
+  //***************
+
 //fresh
+
   List<RecipeModel>? _freshList;
   List<RecipeModel>? get freshList => _freshList;
   int sliderIndex = 0;

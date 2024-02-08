@@ -5,7 +5,7 @@ import 'package:tasty_recipe_app/pages/home_screen_pages/menu_screen.dart';
 
 // lafaa
 class DrawerScreen extends StatefulWidget {
-  const DrawerScreen({super.key,});
+  const DrawerScreen({super.key});
   @override
   State<DrawerScreen> createState() => _DrawerScreenState();
 }

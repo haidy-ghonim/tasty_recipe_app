@@ -12,11 +12,15 @@ class RecipeModel {
   num? serving;
   List<String>? users_ids;//todo favourite user
   String? docId;
+  List<String>? recentlyView;
   // Map<String, String>? directions;
 
   RecipeModel();
   RecipeModel.fromJson(Map<String, dynamic> data, [String? id]) {
     docId = id;
+    recentlyView=data['recentlyView']!= null
+        ? List<String>.from(data['recentlyView'].map((e) => e.toString()))
+        : null;
     isActive = data['isActive'];
     title = data['title'];
     image = data['image'];

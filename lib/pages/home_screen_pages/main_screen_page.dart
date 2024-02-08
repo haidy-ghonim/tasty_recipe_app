@@ -47,6 +47,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   RecipeModel? recipemodel;
+  // bool isInList(RecipeModel recipe) {
+  //   return recipe.users_ids!.contains(FirebaseAuth.instance.currentUser?.uid);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -344,12 +347,17 @@ class _MainScreenState extends State<MainScreen> {
 
                   //todo see all
                   GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const AllRecipesPage())),
-
-                    // print("see all fresh recipes"),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => AllRecipesPage(
+                                seeAll: Provider.of<FreshRecipesProvider>(
+                                    context)
+                                    .allList ??
+                                    [],
+                              )));
+                    },
                     child: Text(
                       "See All",
                       style: TextStyle(
@@ -394,8 +402,8 @@ class _MainScreenState extends State<MainScreen> {
                                     onTap: () => Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => DetailsScreen(
-                                            freshRecipesProvider
-                                                .freshList![index].image!),
+                                            recipe: freshRecipesProvider
+                                                .freshList![index]),
                                       ),
                                     ),
                                     child: Card(
@@ -434,13 +442,23 @@ class _MainScreenState extends State<MainScreen> {
                                                     // top: 6,
                                                     // left: 7,
                                                     child: InkWell(
-                                                      onTap: () {
-                                                        freshRecipesProvider.addRecipeToUserFavourite(
-                                                            freshRecipesProvider
-                                                                .freshList![
-                                                                    index]
-                                                                .docId!,
-                                                            !(freshRecipesProvider
+                                                        onTap: () {
+                                                          freshRecipesProvider.addRecipeToUserFavourite(
+                                                              freshRecipesProvider
+                                                                  .freshList![
+                                                                      index]
+                                                                  .docId!,
+                                                              !(freshRecipesProvider
+                                                                      .freshList![
+                                                                          index]
+                                                                      .users_ids
+                                                                      ?.contains(FirebaseAuth
+                                                                          .instance
+                                                                          .currentUser
+                                                                          ?.uid) ??
+                                                                  false));
+                                                        },
+                                                        child: (freshRecipesProvider
                                                                     .freshList![
                                                                         index]
                                                                     .users_ids
@@ -448,32 +466,22 @@ class _MainScreenState extends State<MainScreen> {
                                                                         .instance
                                                                         .currentUser
                                                                         ?.uid) ??
-                                                                false));
-                                                      },
-                                                      child: (freshRecipesProvider
-                                                                  .freshList![
-                                                                      index]
-                                                                  .users_ids
-                                                                  ?.contains(FirebaseAuth
-                                                                      .instance
-                                                                      .currentUser
-                                                                      ?.uid) ??
-                                                              false
-                                                          ? const Icon(
-                                                              Icons
-                                                                  .favorite_border_rounded,
-                                                              size: 30,
-                                                              color:
-                                                                  Colors.grey,
-                                                            )
-                                                          : const Icon(
-                                                              Icons
-                                                                  .favorite_border_rounded,
-                                                              size: 30,
-                                                              color:
-                                                                  Colors.grey,
-                                                            )),
-                                                    ),
+                                                                false
+                                                            ? Icon(
+                                                                Icons
+                                                                    .favorite_rounded,
+                                                                size: 30,
+                                                                color: Colors
+                                                                        .orange[
+                                                                    900],
+                                                              )
+                                                            : const Icon(
+                                                                Icons
+                                                                    .favorite_border_rounded,
+                                                                size: 30,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ))),
                                                   ),
                                                 ),
                                               ],
@@ -654,10 +662,17 @@ class _MainScreenState extends State<MainScreen> {
 
                   //todo see all
                   GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const AllRecipesPage())),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => AllRecipesPage(
+                                    seeAll: Provider.of<FreshRecipesProvider>(
+                                        context)
+                                        .allList ??
+                                        [],
+                                  )));
+                    },
                     child: Text(
                       "See All",
                       style: TextStyle(
@@ -695,13 +710,12 @@ class _MainScreenState extends State<MainScreen> {
                                   //todo el page el feha back plate
                                   return GestureDetector(
                                       onTap: () => Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailsScreen(
-                                                      freshRecipesProvider
-                                                          .recommendedList![
-                                                              index]
-                                                          .title))),
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailsScreen(
+                                                  recipe: freshRecipesProvider
+                                                      .recommendedList![index]),
+                                            ),
+                                          ),
                                       child: Card(
                                         color: Colors.grey[100],
                                         child: Container(
@@ -931,9 +945,7 @@ class _MainScreenState extends State<MainScreen> {
                                             ],
                                           ),
                                         ),
-                                      )
-                                      // )
-                                      );
+                                      ));
                                 }, //return to container two
                               ),
                             ),
