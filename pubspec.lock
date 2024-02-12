@@ -89,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  awesome_select:
+    dependency: "direct main"
+    description:
+      name: awesome_select
+      sha256: b7ea3886c29f07db559688feca329961aa8115c97ecc0615b11db8b8705160c3
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
   back_button_interceptor:
     dependency: transitive
     description:
@@ -369,6 +377,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+1"
+  filter_list:
+    dependency: "direct main"
+    description:
+      name: filter_list
+      sha256: "2d80d6d19beb7847c1176e8bf6fe06d302b23eb7d1bf48c231dd730409ff9b4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -473,6 +489,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  flexible_slider:
+    dependency: "direct main"
+    description:
+      name: flexible_slider
+      sha256: abb65ec24a724e2993b78306cbd536928d97aacdc0523b808d1f355965e5a21b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   flut_grouped_buttons:
     dependency: "direct main"
     description:
@@ -566,6 +590,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.9.0"
+  flutter_slidable:
+    dependency: "direct main"
+    description:
+      name: flutter_slidable
+      sha256: "19ed4813003a6ff4e9c6bcce37e792a2a358919d7603b2b31ff200229191e44c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   flutter_slider_drawer:
     dependency: "direct main"
     description:
@@ -752,6 +784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   js:
     dependency: transitive
     description:
@@ -1000,6 +1040,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  search_page:
+    dependency: "direct main"
+    description:
+      name: search_page
+      sha256: "675239c1ac17f999c37aea7f4c969dc2fc21b58eb61d78180ff0c16112aab49b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  searchable_listview:
+    dependency: "direct main"
+    description:
+      name: searchable_listview
+      sha256: fad781a412d1fec251c7a66e4aca49e49ab8b7104bda733b476d4b5c81891bea
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.10.1"
+  searchfield:
+    dependency: "direct main"
+    description:
+      name: searchfield
+      sha256: b3d6173f0aa6ca195f3ffa451ec4019df9cf699300a7288e08df5145b874b41e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.2"
   settings_ui:
     dependency: "direct main"
     description:
@@ -1141,6 +1205,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: e8580e201c7197feac830b501889e877796a9fabbe20dcdbe90a981603939101
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.2.4"
+  syncfusion_flutter_sliders:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_sliders
+      sha256: "8df6425c74b2c2434a3e9109d04ff3adeb4c821a3a22efe3e0cbbd0b5a22afdc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.2.4"
   synchronized:
     dependency: transitive
     description:

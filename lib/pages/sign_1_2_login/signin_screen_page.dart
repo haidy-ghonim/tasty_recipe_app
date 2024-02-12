@@ -154,15 +154,19 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    'Forgot Password?',
-                                    style: TextStyle(
-                                      fontFamily: 'Hellix-RegularItalic',
-                                      fontSize: 15,
-                                      color: Colors.cyan[700],
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                  InkWell(
+                                    onTap: (){}, // make page
+                                   child:Text(
+                                     'Forgot Password?',
+                                     style: TextStyle(
+                                       fontFamily: 'Hellix-RegularItalic',
+                                       fontSize: 15,
+                                       color: Colors.cyan[700],
+                                       fontWeight: FontWeight.w700,
+                                     ),
+                                   ),
                                   ),
+
                                   const SizedBox(width: 5),
                                 ],
                               ),

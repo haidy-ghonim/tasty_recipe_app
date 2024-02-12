@@ -7,6 +7,10 @@ import 'package:tasty_recipe_app/utils/toast_message_status.dart';
 import 'package:tasty_recipe_app/widgets/toast_message.widget.dart';
 
 class FreshRecipesProvider extends ChangeNotifier {
+  // // searchlist  //todo search
+
+
+  //**********
 //see all //recipes how masmaha kadaa
   List<RecipeModel>? _allList;
   List<RecipeModel>? get allList => _allList;
@@ -25,6 +29,7 @@ class FreshRecipesProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   //****************
   //two action make in all and out
   Future<void> addRecipeToUserFavourite(String recipeId, bool isAdd) async {
@@ -104,27 +109,106 @@ class FreshRecipesProvider extends ChangeNotifier {
   }
 
   //***************
-  // open details in recipe
+//filter
+  List<RecipeModel>? _resultFilter;
+  List<RecipeModel>? get resultFilter => _resultFilter;
+  var chosseUserValue = {};
+//call  with query snap filter list  da gazaa el map apply
+  Future<void> getFilteredResult() async {
+    Query<Map<String, dynamic>> ref =
+        FirebaseFirestore.instance.collection('recipes');
+    for (var entry in chosseUserValue.entries) {
+      ref.where(entry.key, isEqualTo: entry.value);
+      ref = ref.where('mealType', isEqualTo: chosseUserValue['mealType']);
+      var valueCalories;
+      ref = ref.where('calories', isGreaterThanOrEqualTo: valueCalories);
+      ref = ref.where('calories', isLessThanOrEqualTo: valueCalories + 100);
+      var valueServing;
+      ref = ref.where('servingSize', isGreaterThanOrEqualTo: valueServing);
+      ref = ref.where('servingSize', isLessThanOrEqualTo: valueServing + 1);
+      var valuePrepareTime;
+      ref = ref.where('preparationTime',
+          isGreaterThanOrEqualTo: valuePrepareTime);
+      ref = ref.where('preparationTime',
+          isLessThanOrEqualTo: valuePrepareTime + 60);
+    }
+
+    var result = await ref.get();
+    if (result.docs.isNotEmpty) {
+      _resultFilter = List<RecipeModel>.from(
+          result.docs.map((doc) => RecipeModel.fromJson(doc.data(), doc.id)));
+      print([resultFilter?.length]);
+    } else {
+      _resultFilter = [];
+    }
+    notifyListeners();
+  }
+
+//   Future<void> getFilteredResult() async {
+//     var ref = FirebaseFirestore.instance.collection('recipes');
+//     for (var entry in chosseUserValue.entries) {
+//       ref.where(entry.key, isEqualTo: entry.value);
+//     }
+//     var result = await ref.get();
+//     if (result.docs.isNotEmpty) {
+//       _resultFilter = List<RecipeModel>.from(
+//           result.docs.map((doc) => RecipeModel.fromJson(doc.data(), doc.id)));
+//     } else {}
+//     notifyListeners();
+//   }
+
+  //***************
+  // open details in recipe //add recently
   RecipeModel? openedRecipe;
-  Future<void> getSelectedRecipe(String recipeId) async{
+  Future<void> getSelectedRecipe(String recipeId) async {
     try {
-          await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('recipes')
           .doc(recipeId)
-        .update({
-        "recentlyView":
-           FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
-        });
+          .update({
+        "recentlyView": FieldValue.arrayUnion(
+            [FirebaseAuth.instance.currentUser?.uid]) //to do array-union
+      });
       notifyListeners();
     } catch (e) {
       print('>>>>>error in update recipe');
     }
   }
 
+  //****************
+//recentlyView //todo check 3amal sa7 wa la X mesh basa3a fe firebase
+  RecipeModel? recentlyViewRecipe;
+  Future<void> getRecentlyViewRecipe() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('recipes')
+          .where("recentlyView",
+              arrayContains: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      notifyListeners();
+    } catch (e) {
+      print('>>>>>error in update recipe');
+    }
+  }
+
+  void removeRecentlyViewToUser(String recipeId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('recipes')
+          .doc(recipeId)
+          .update({
+        "recentlyView":
+            FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+      });
+      notifyListeners();
+    } catch (e) {
+      print('>>>>>error removeRecentlyView');
+    }
+  }
+
   //***************
 
 //fresh
-
   List<RecipeModel>? _freshList;
   List<RecipeModel>? get freshList => _freshList;
   int sliderIndex = 0;
@@ -209,3 +293,5 @@ class FreshRecipesProvider extends ChangeNotifier {
   }
 //****************
 }
+
+

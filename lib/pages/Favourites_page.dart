@@ -3,10 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexible_grid_view/flexible_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/models/recipe.model.dart';
 import 'package:tasty_recipe_app/pages/filter_page.dart';
-import 'package:tasty_recipe_app/pages/home_screen_pages/home_first_screen.dart';
+import 'package:tasty_recipe_app/pages/recently_viewed_page.dart';
 import 'package:tasty_recipe_app/provider/recipes.provider.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -18,6 +19,22 @@ class FavouritesPage extends StatefulWidget {
 
 class _FavouritesPageState extends State<FavouritesPage> {
   bool value = true;
+
+  List recipesFavourite = [];
+
+  void searchFromFirebase(String search) async {
+    final result = await FirebaseFirestore.instance
+        .collection('recipes')
+        .where(
+          "title",
+          arrayContains: search,
+        )
+        .get();
+
+    setState(() {
+      recipesFavourite = result.docs.map((e) => e.data()).toList();
+    });
+  }
 
   @override
   void initState() {
@@ -43,23 +60,24 @@ class _FavouritesPageState extends State<FavouritesPage> {
         leading: IconButton(
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const HomeFirstScreen()));
+                MaterialPageRoute(builder: (_) => const RecentlyViewedPage()));
           },
           icon: const Icon(
-            Icons.sort,
+            Icons.arrow_back,
             color: Colors.black,
           ),
         ),
         centerTitle: true,
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.black,
-            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Lottie.network(
+                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'
+                // 'https://lottie.host/2adf013a-659e-4c6a-96f3-4a5fec2c27e6/g1EC3MyqEY.json'
+
+                ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
         ],
@@ -79,10 +97,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 return const Text('ERROR WHEN GET DATA');
               } else {
                 if (snapshots.hasData) {
-                  List<RecipeModel> recipesList = snapshots
-                          .data?.docs
-                          .map((e) => RecipeModel.fromJson(
-                              e.data(), e.id))
+                  List<RecipeModel> recipesList = snapshots.data?.docs
+                          .map((e) => RecipeModel.fromJson(e.data(), e.id))
                           .toList() ??
                       [];
                   return SingleChildScrollView(
@@ -109,13 +125,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
                             ),
                           ],
                         ),
-                        // const SizedBox(
-                        //   height: 16.0,
-                        // ),
-                        // const Padding(
-                        //   padding: EdgeInsets.only(
-                        //       left: 20, top: 0, right: 15, bottom: 0),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 20, top: 0, right: 15, bottom: 0),
@@ -126,10 +135,14 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 1.0, horizontal: 3.0),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.grey[200],
                                     borderRadius: BorderRadius.circular(14.0),
                                   ),
                                   child: TextField(
+                                    // onChanged: (e) {
+                                    //   // searchFromFirebase(e);
+                                    //   // Navigator.push(context, MaterialPageRoute(builder: (_)=> const SearchPage()));
+                                    // },
                                     cursorColor: Colors.grey[500],
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
@@ -227,7 +240,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                                     .instance
                                                                     .currentUser
                                                                     ?.uid);
-                                                          } else {}
+                                                          } else {
+                                                          }
                                                           setState(() {});
                                                         },
                                                         //todo  error heart
@@ -244,7 +258,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                                     .favorite_rounded,
                                                                 size: 30,
                                                                 color: Colors
-                                                                    .orange[900],
+                                                                        .orange[
+                                                                    900],
                                                               )),
                                                   ),
                                                 ),
@@ -309,15 +324,17 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                     RatingBar.builder(
                                                       initialRating: 4,
                                                       minRating: 1,
-                                                      direction: Axis.horizontal,
+                                                      direction:
+                                                          Axis.horizontal,
                                                       allowHalfRating: true,
                                                       updateOnDrag: true,
                                                       unratedColor: Colors.grey,
                                                       itemCount:
                                                           5, //todo how to give rate
                                                       itemSize: 15,
-                                                      itemBuilder: (context, _) =>
-                                                          Icon(Icons.star,
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
+                                                              Icons.star,
                                                               color: Colors
                                                                   .orange[900]),
                                                       onRatingUpdate: (rating) {
@@ -330,8 +347,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                     Text(
                                                       "${e.calories!}  Calories",
                                                       style: TextStyle(
-                                                          color:
-                                                              Colors.orange[900],
+                                                          color: Colors
+                                                              .orange[900],
                                                           fontSize: 12.0,
                                                           fontWeight:
                                                               FontWeight.w400),
@@ -343,7 +360,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                       children: [
                                                         Icon(
                                                           Icons.access_time,
-                                                          color: Colors.grey[400],
+                                                          color:
+                                                              Colors.grey[400],
                                                           size: 19.0,
                                                         ),
                                                         const SizedBox(

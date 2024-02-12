@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
@@ -10,25 +11,34 @@ class AppAuthProvider extends ChangeNotifier {
   GlobalKey<FormState>? formKey;
   TextEditingController? emailController;
   TextEditingController? passwordController;
+  TextEditingController? forgetpasswordController;
   TextEditingController? firstnameController;
-  // TextEditingController? forgetpasswordController;
+  TextEditingController? lastController;
+  TextEditingController? ageController;
+  TextEditingController? phonenumberController;
   bool obsecureText = true;
 
   void providerInit() {
     formKey = GlobalKey<FormState>();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+    forgetpasswordController = TextEditingController();
+    phonenumberController = TextEditingController();
     firstnameController = TextEditingController();
-    // forgetpasswordController=TextEditingController();
+    lastController = TextEditingController();
+    ageController = TextEditingController();
   }
 
   void providerDispose() {
     emailController = null;
     passwordController = null;
     formKey = null;
-    firstnameController = null;
     obsecureText = false;
-    // forgetpasswordController=null;
+    forgetpasswordController = null;
+    phonenumberController = null;
+    firstnameController = null;
+    lastController = null;
+    ageController = null;
   }
 
   void toggleObsecure() {
@@ -136,49 +146,52 @@ class AppAuthProvider extends ChangeNotifier {
     }
     OverlayLoadingProgress.stop();
   }
-  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  //
-  // Future<void> updatePhotoURL(String photoURL) async {
-  //   try {
-  //     User? user = _firebaseAuth.currentUser;
-  //
-  //     await user?.updateProfile(photoURL: photoURL);
-  //
-  //     // Reload the user to get the updated information
-  //     await user?.reload();
-  //     user = _firebaseAuth.currentUser;
-  //
-  //     print('PhotoURL updated successfully');
-  //   } catch (e) {
-  //     print('Error updating PhotoURL: $e');
-  //   }
-  // }
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<void> updatePhotoURL(String photoURL) async {
+    try {
+      User? user = _firebaseAuth.currentUser;
+
+      // await user?.updateProfile(photoURL: photoURL);
+await FirebaseAuth.instance.currentUser?.updatePhotoURL
+  ('https://firebasestorage.googleapis.com/v0/b/tasty-food-app-e53e9.appspot.com/o/profile%2FFB_IMG_1707067893374.jpg?alt=media&token=97ba6522-3318-4cfb-a567-a7691d4b82a3');
+      // Reload the user to get the updated information
+      await user?.reload();
+      user = _firebaseAuth.currentUser;
+
+      print('PhotoURL updated successfully');
+    } catch (e) {
+      print('Error updating PhotoURL: $e');
+    }
+  }
+
+//todo new user
+  Future addUserDetails() async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'first name': '',
+      'last name': '',
+      'age': '',
+      'phone number':'',
+    });
+  }
 
   // Future updateUserProfile(User user, String newUsername) async {
   //   await _firestore.collection('users').doc(user.uid).update({
   //     'username': newUsername,
   //   });
-
+  //
   // Future uploadProfilePicture(User user, File profilePicture) async {
   //   final FirebaseStorage _storage = FirebaseStorage.instance;
   //
   //   UploadTask uploadTask = _storage
   //       .ref()
   //       .child('userProfilePictures/${user.uid}/profilePicture.jpg')
-  //       .putFile('profilePicture');
+  //       .putFile('profilePicture' as File);
   //
   //   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
   //   String downloadURL = await taskSnapshot.ref.getDownloadURL();
   //
   //   return downloadURL;
   // }
-
-
-
-
-
-  }
-
-
-
-
+}

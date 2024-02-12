@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tasty_recipe_app/pages/home_screen_pages/home_first_screen.dart';
 import 'package:tasty_recipe_app/pages/portoflio_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -18,13 +19,31 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const HomeFirstScreen()));
+          },
           icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Lottie.network(
+                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'
+              // 'https://lottie.host/2adf013a-659e-4c6a-96f3-4a5fec2c27e6/g1EC3MyqEY.json'
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+        ],
+        elevation: 0,
       ),
+
       body: Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const SizedBox(
@@ -82,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: const EdgeInsets.all(12.0),
                 borderRadius: BorderRadius.circular(12.0),
                 color: CupertinoColors.activeOrange,
-                child: const Text('Create  Profile'),
+                child: const Text('Create Profile'),
               ),
             ),
           ),

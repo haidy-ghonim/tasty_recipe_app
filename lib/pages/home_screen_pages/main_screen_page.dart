@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tasty_recipe_app/models/recipe.model.dart';
 import 'package:tasty_recipe_app/pages/detailspage/details_screen.dart';
@@ -20,7 +21,9 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
+
 class _MainScreenState extends State<MainScreen> {
+
   @override
   void initState() {
     init();
@@ -71,15 +74,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         centerTitle: true,
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.black,
-            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Lottie.network(
+                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
         ],
@@ -128,16 +129,19 @@ class _MainScreenState extends State<MainScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
+                    child:
+                    Container(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 1.0,
-                        horizontal: 3.0,
-                      ),
+                          vertical: 1.0, horizontal: 3.0),
                       decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(14.0)),
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
                       child: TextField(
-                        onTap: () {}, //todo search same thing make page
+                        onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const FilterScreenPage())),
                         cursorColor: Colors.grey[500],
                         decoration: const InputDecoration(
                           border: InputBorder.none,
@@ -146,7 +150,7 @@ class _MainScreenState extends State<MainScreen> {
                             color: Colors.grey,
                             size: 18.0,
                           ),
-                          hintText: "Search For Recipes",
+                          hintText: "Search using Keywords",
                           hintStyle:
                               TextStyle(color: Colors.grey, fontSize: 14.0),
                         ),
@@ -352,11 +356,11 @@ class _MainScreenState extends State<MainScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => AllRecipesPage(
-                                seeAll: Provider.of<FreshRecipesProvider>(
-                                    context)
-                                    .allList ??
-                                    [],
-                              )));
+                                    seeAll: Provider.of<FreshRecipesProvider>(
+                                                context)
+                                            .allList ??
+                                        [],
+                                  )));
                     },
                     child: Text(
                       "See All",
@@ -668,8 +672,8 @@ class _MainScreenState extends State<MainScreen> {
                           MaterialPageRoute(
                               builder: (_) => AllRecipesPage(
                                     seeAll: Provider.of<FreshRecipesProvider>(
-                                        context)
-                                        .allList ??
+                                                context)
+                                            .allList ??
                                         [],
                                   )));
                     },
