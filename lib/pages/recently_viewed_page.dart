@@ -186,7 +186,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                       height: 150,
                                       width: 80,
                                       //todo todo pppppp
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 15,
                                           top: 0,
                                           right: 15,
@@ -196,7 +196,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                         child: Slidable(
                                           endActionPane: ActionPane(
                                             // key: UniqueKey(),//todo error
-                                            motion: ScrollMotion(),
+                                            motion: const ScrollMotion(),
                                             // dismissible: DismissiblePane(
                                             //     onDismissed: () {}),
                                             children: [
@@ -475,5 +475,3 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
     );
   }
 }
-//   void noDothing(BuildContext context) {}
-// }
