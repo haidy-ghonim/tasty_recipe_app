@@ -22,8 +22,9 @@ class _ForgetPassWordEmailScreenState extends State<ForgetPassWordEmailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                    child: Lottie.network(
-                        'https://lottie.host/64859ed4-741c-42c0-98ec-d3f283946ab1/pjOTYTtyfi.json')),
+                  child: Lottie.network(
+                      'https://lottie.host/64859ed4-741c-42c0-98ec-d3f283946ab1/pjOTYTtyfi.json'),
+                ),
                 const SizedBox(height: 3),
                 Text('Forget Password',
                     style: Theme.of(context).textTheme.headlineMedium),
@@ -34,21 +35,23 @@ class _ForgetPassWordEmailScreenState extends State<ForgetPassWordEmailScreen> {
                 const SizedBox(height: 7),
                 Form(
                     child: Column(
-                      children: [
-                     TextFormField(
+                  children: [
+                    TextFormField(
                       decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.blueGrey,
-                              ),
-                              borderRadius: BorderRadius.circular(12)),
-                          label: const Text("E-mail"),
-                          hintText: 'email',
-                      prefixIcon: const Icon(Icons.mail_outline_rounded),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.blueGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(12)),
+                        label: const Text("E-mail"),
+                        hintText: 'email',
+                        prefixIcon: const Icon(Icons.mail_outline_rounded),
                       ),
                     ),
-                        const SizedBox(height: 20.0,),
-                        ElevatedButton(onPressed: (){}, child: const Text('Next')),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    ElevatedButton(onPressed: () {}, child: const Text('Next')),
                   ],
                 ))
               ],

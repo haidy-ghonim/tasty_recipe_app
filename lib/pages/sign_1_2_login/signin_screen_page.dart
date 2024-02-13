@@ -163,189 +163,190 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                         builder: (context) => Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
-                                                      30, 100, 30, 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    "Make Selection!",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headlineLarge,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    "Select one of the options given below to rest  your password",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleMedium,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 30.0,
-                                                  ),
-
-                                                  // todo page forget email
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (_) =>
-                                                                  const ForgetPassWordEmailScreen()));
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              20.0),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                          color: Colors
-                                                              .grey.shade300),
-                                                      child: const Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .email_outlined,
-                                                            size: 40.0,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 10.0,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'E-Mail',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              Text(
-                                                                  'Reset via E-Mail Verification'),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                      30, 80, 30, 10),
+                                              child:Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: 5,
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 30.0,
-                                                  ),
-
-                                                  // todo page forget phone
-                                                  GestureDetector(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              20.0),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                          color: Colors
-                                                              .grey.shade300),
-                                                      child: const Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .mobile_friendly_outlined,
-                                                            size: 40.0,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 10.0,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'Phone No',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              Text(
-                                                                  'Reset via Phone Verification'),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                    Text(
+                                                      "Make Selection!",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineLarge,
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20.0,
-                                                  ),
-                                                  Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        LottieBuilder.network(
-                                                          'https://lottie.host/65a3b98b-e40e-4c52-a35f-2ee8cdff407c/GiPuEfU2Ya.json',
-                                                          width: 300,
-                                                        ),
-                                                      ],
+                                                    const SizedBox(
+                                                      height: 5,
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  Material(
-                                                    elevation: 5,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    color: Colors.orange[800],
-                                                    child: MaterialButton(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(
-                                                          20, 15, 20, 15),
-                                                      // minWidth: MediaQuery.of(context).size.width,
-                                                      onPressed: () async {
-                                                        // await authProvider.logIn(context);
-                                                        Navigator
-                                                            .pushReplacement(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  //SIgNIN  HATABAHAA
-                                                                  (_) =>
-                                                                      const SignUpScreenPage()),
-                                                        );
+                                                    Text(
+                                                      "Select one of the options given below to rest  your password",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 30.0,
+                                                    ),
+                                                
+                                                    // todo page forget email
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (_) =>
+                                                                    const ForgetPassWordEmailScreen()));
                                                       },
-                                                      child: const Text(
-                                                        'Return Back',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                20.0),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            color: Colors
+                                                                .grey.shade300),
+                                                        child: const Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .email_outlined,
+                                                              size: 40.0,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 10.0,
+                                                            ),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'E-Mail',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                Text(
+                                                                    'Reset via E-Mail Verification'),
+                                                              ],
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                    const SizedBox(
+                                                      height: 10.0,
+                                                    ),
+                                                
+                                                    // todo page forget phone
+                                                    GestureDetector(
+                                                      onTap: () {},
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                20.0),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            color: Colors
+                                                                .grey.shade300),
+                                                        child: const Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .mobile_friendly_outlined,
+                                                              size: 40.0,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 10.0,
+                                                            ),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Phone No',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                Text(
+                                                                    'Reset via Phone Verification'),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20.0,
+                                                    ),
+                                                    Center(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          LottieBuilder.network(
+                                                            'https://lottie.host/65a3b98b-e40e-4c52-a35f-2ee8cdff407c/GiPuEfU2Ya.json',
+                                                            width: 300,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Material(
+                                                      elevation: 5,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color: Colors.orange[800],
+                                                      child: MaterialButton(
+                                                        padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                            20, 15, 20, 15),
+                                                        // minWidth: MediaQuery.of(context).size.width,
+                                                        onPressed: () async {
+                                                          // await authProvider.logIn(context);
+                                                          Navigator
+                                                              .pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    //SIgNIN  HATABAHAA
+                                                                    (_) =>
+                                                                        const SignUpScreenPage()),
+                                                          );
+                                                        },
+                                                        child: const Text(
+                                                          'Return Back',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ));
+                                            );
                                   },
                                   child: Text(
                                     'Forgot Password?',

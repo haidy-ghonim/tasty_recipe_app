@@ -101,6 +101,7 @@ dependencies:
   flexible_slider: ^0.0.1
   draggable_bottom_sheet: ^1.0.2
   path: ^1.8.3
+  flutter_otp_text_field: ^1.1.1
 
 
 
