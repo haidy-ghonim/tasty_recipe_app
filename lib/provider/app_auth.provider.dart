@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
@@ -13,7 +12,6 @@ class AppAuthProvider extends ChangeNotifier {
   TextEditingController? passwordController;
   TextEditingController? forgetpasswordController;
   TextEditingController? firstnameController;
-  TextEditingController? lastController;
   TextEditingController? ageController;
   TextEditingController? phonenumberController;
   bool obsecureText = true;
@@ -25,7 +23,6 @@ class AppAuthProvider extends ChangeNotifier {
     forgetpasswordController = TextEditingController();
     phonenumberController = TextEditingController();
     firstnameController = TextEditingController();
-    lastController = TextEditingController();
     ageController = TextEditingController();
   }
 
@@ -37,7 +34,6 @@ class AppAuthProvider extends ChangeNotifier {
     forgetpasswordController = null;
     phonenumberController = null;
     firstnameController = null;
-    lastController = null;
     ageController = null;
   }
 
@@ -46,6 +42,55 @@ class AppAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //****************
+
+//todo forget password
+
+
+
+
+
+
+
+//****************
+//todo  phone
+
+
+
+
+
+  //****************
+//todo upload photo
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  Future<void> updatePhotoURL(String photoURL) async {
+    try {
+      // Get the currently authenticated user
+      User? user = _firebaseAuth.currentUser;
+      // Update the photoURL property of the user
+      if (user != null) {
+        await user.updatePhotoURL(photoURL);
+        // Reload the user to apply the changes
+        await user.reload();
+      } else {
+        // Handle the case when the user is not authenticated
+        throw FirebaseAuthException(
+          code: 'user-not-found',
+          message: 'No authenticated user found.',
+        );
+      }
+      notifyListeners();
+
+    } catch (e) {
+      // Handle any errors that occur during the update process
+      print('Error updating photo URL: $e');
+      throw e;
+    }
+    notifyListeners();
+  }
+
+
+//****************
+//todo login
   Future<void> logIn(BuildContext context) async {
     try {
       if (formKey?.currentState?.validate() ?? false) {
@@ -106,7 +151,8 @@ class AppAuthProvider extends ChangeNotifier {
       OverlayToastMessage.show(textMessage: 'Public Error $e');
     }
   }
-
+  //****************
+//todo signup
   Future<void> signUp(BuildContext context) async {
     try {
       if (formKey?.currentState?.validate() ?? false) {
@@ -119,6 +165,7 @@ class AppAuthProvider extends ChangeNotifier {
         if (credentials.user != null) {
           await credentials.user?.updateDisplayName(firstnameController!.text);
           FirebaseAuth.instance.currentUser?.updatePhotoURL('');
+          // FirebaseAuth.instance.currentUser?.updateDisplayName('');
           OverlayLoadingProgress.stop();
           providerDispose();
 
@@ -133,7 +180,8 @@ class AppAuthProvider extends ChangeNotifier {
       OverlayLoadingProgress.stop();
     }
   }
-
+  //****************
+//todo signout
   void signOut(BuildContext context) async {
     OverlayLoadingProgress.start();
     await Future.delayed(const Duration(seconds: 1));
@@ -146,52 +194,6 @@ class AppAuthProvider extends ChangeNotifier {
     }
     OverlayLoadingProgress.stop();
   }
+  //****************
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-  Future<void> updatePhotoURL(String photoURL) async {
-    try {
-      User? user = _firebaseAuth.currentUser;
-
-      // await user?.updateProfile(photoURL: photoURL);
-await FirebaseAuth.instance.currentUser?.updatePhotoURL
-  ('https://firebasestorage.googleapis.com/v0/b/tasty-food-app-e53e9.appspot.com/o/profile%2FFB_IMG_1707067893374.jpg?alt=media&token=97ba6522-3318-4cfb-a567-a7691d4b82a3');
-      // Reload the user to get the updated information
-      await user?.reload();
-      user = _firebaseAuth.currentUser;
-
-      print('PhotoURL updated successfully');
-    } catch (e) {
-      print('Error updating PhotoURL: $e');
-    }
-  }
-
-//todo new user
-  Future addUserDetails() async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'first name': '',
-      'last name': '',
-      'age': '',
-      'phone number':'',
-    });
-  }
-
-  // Future updateUserProfile(User user, String newUsername) async {
-  //   await _firestore.collection('users').doc(user.uid).update({
-  //     'username': newUsername,
-  //   });
-  //
-  // Future uploadProfilePicture(User user, File profilePicture) async {
-  //   final FirebaseStorage _storage = FirebaseStorage.instance;
-  //
-  //   UploadTask uploadTask = _storage
-  //       .ref()
-  //       .child('userProfilePictures/${user.uid}/profilePicture.jpg')
-  //       .putFile('profilePicture' as File);
-  //
-  //   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-  //   String downloadURL = await taskSnapshot.ref.getDownloadURL();
-  //
-  //   return downloadURL;
-  // }
 }

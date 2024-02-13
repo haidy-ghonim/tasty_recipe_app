@@ -34,7 +34,6 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.all(8.0),
             child: Lottie.network(
                 'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'
-              // 'https://lottie.host/2adf013a-659e-4c6a-96f3-4a5fec2c27e6/g1EC3MyqEY.json'
             ),
           ),
           const SizedBox(
@@ -87,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
             width: 400,
               child: Lottie.network
           ('https://lottie.host/b13d8a4e-7b1c-463c-9a17-a07027cde157/0bPihk8cA4.json')),
-          const SizedBox(height: 60), // Add some space before the button
+          const SizedBox(height: 40), // Add some space before the button
           Center(
             child: Container(
               child: CupertinoButton(

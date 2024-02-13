@@ -2,6 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:tasty_recipe_app/pages/sign_1_2_login/forget_password_email.page.dart';
+import 'package:tasty_recipe_app/pages/sign_1_2_login/signin_button_sheet_page.dart';
 import 'package:tasty_recipe_app/pages/sign_1_2_login/signup_screen_page.dart';
 import 'package:tasty_recipe_app/provider/app_auth.provider.dart';
 
@@ -71,8 +73,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                     fontWeight: FontWeight.bold),
                               ),
 
-                              // emailField,
-
+                              //todo emailField,
                               TextFormField(
                                 controller: authProvider.emailController,
                                 style: const TextStyle(color: Colors.white),
@@ -107,7 +108,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              //passwordField
+                              //todo  passwordField
                               TextFormField(
                                 controller: authProvider.passwordController,
                                 obscureText: authProvider.obsecureText,
@@ -150,27 +151,213 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                               ),
 
                               //todo firbase forgot password
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: (){}, // make page
-                                   child:Text(
-                                     'Forgot Password?',
-                                     style: TextStyle(
-                                       fontFamily: 'Hellix-RegularItalic',
-                                       fontSize: 15,
-                                       color: Colors.cyan[700],
-                                       fontWeight: FontWeight.w700,
-                                     ),
-                                   ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {
+                                    showBottomSheet(
+                                        context: context,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        builder: (context) => Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      30, 100, 30, 10),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    "Make Selection!",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headlineLarge,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    "Select one of the options given below to rest  your password",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 30.0,
+                                                  ),
+
+                                                  // todo page forget email
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  const ForgetPassWordEmailScreen()));
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              20.0),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                          color: Colors
+                                                              .grey.shade300),
+                                                      child: const Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .email_outlined,
+                                                            size: 40.0,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10.0,
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'E-Mail',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Text(
+                                                                  'Reset via E-Mail Verification'),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 30.0,
+                                                  ),
+
+                                                  // todo page forget phone
+                                                  GestureDetector(
+                                                    onTap: () {},
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              20.0),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                          color: Colors
+                                                              .grey.shade300),
+                                                      child: const Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .mobile_friendly_outlined,
+                                                            size: 40.0,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10.0,
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'Phone No',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Text(
+                                                                  'Reset via Phone Verification'),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20.0,
+                                                  ),
+                                                  Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        LottieBuilder.network(
+                                                          'https://lottie.host/65a3b98b-e40e-4c52-a35f-2ee8cdff407c/GiPuEfU2Ya.json',
+                                                          width: 300,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Material(
+                                                    elevation: 5,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: Colors.orange[800],
+                                                    child: MaterialButton(
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(
+                                                          20, 15, 20, 15),
+                                                      // minWidth: MediaQuery.of(context).size.width,
+                                                      onPressed: () async {
+                                                        // await authProvider.logIn(context);
+                                                        Navigator
+                                                            .pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  //SIgNIN  HATABAHAA
+                                                                  (_) =>
+                                                                      const SignUpScreenPage()),
+                                                        );
+                                                      },
+                                                      child: const Text(
+                                                        'Return Back',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ));
+                                  },
+                                  child: Text(
+                                    'Forgot Password?',
+                                    style: TextStyle(
+                                      fontFamily: 'Hellix-RegularItalic',
+                                      fontSize: 15,
+                                      color: Colors.cyan[700],
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-
-                                  const SizedBox(width: 5),
-                                ],
+                                ),
                               ),
-
                               const SizedBox(
                                 height: 70,
                               ),
@@ -276,3 +463,46 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
     );
   }
 }
+
+// class ForgetPasswordBtnWidget extends StatelessWidget {
+//   const ForgetPasswordBtnWidget({
+//     super.key,
+//     required this.onTap,
+//   });
+//   final VoidCallback onTap;
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         padding: const EdgeInsets.all(20.0),
+//         decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(10.0),
+//             color: Colors.grey.shade300),
+//         child: const Row(
+//           children: [
+//             Icon(
+//               Icons.email_outlined,
+//               size: 40.0,
+//             ),
+//             SizedBox(
+//               width: 10.0,
+//             ),
+//             Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(
+//
+//                   'E-Mail',
+//                   style: TextStyle(fontWeight: FontWeight.bold),
+//                 ),
+//                 Text
+//                   ('Reset via E-Mail Verification'),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

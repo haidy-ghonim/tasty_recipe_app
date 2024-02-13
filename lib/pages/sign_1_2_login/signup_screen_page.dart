@@ -87,7 +87,7 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                                 ),
                                 // contentPadding:
                                 //     EdgeInsets.fromLTRB(20, 15, 20, 15),
-                                hintText: "First Name",
+                                hintText: "Full Name",
                                 hintStyle: TextStyle(color: Colors.grey),
                               ),
                             ),
