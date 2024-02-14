@@ -25,8 +25,6 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
       body: Stack(
         children: [
           Container(
-            // width: double.infinity,
-            // height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
@@ -73,7 +71,7 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                               height: 25,
                             ),
 
-                            //person
+                            //todo person
                             TextFormField(
                               controller: authProvider.firstnameController,
                               style: const TextStyle(color: Colors.white),
@@ -85,8 +83,6 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                                   Icons.person_outline,
                                   color: Colors.grey,
                                 ),
-                                // contentPadding:
-                                //     EdgeInsets.fromLTRB(20, 15, 20, 15),
                                 hintText: "Full Name",
                                 hintStyle: TextStyle(color: Colors.grey),
                               ),
@@ -94,7 +90,7 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                             const SizedBox(
                               height: 10,
                             ),
-                            //  emailField
+                            // todo  emailField
                             TextFormField(
                               controller: authProvider.emailController,
                               style: const TextStyle(color: Colors.white),
@@ -121,7 +117,7 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                               ),
                             ),
 
-                            //passwordField
+                            //todo passwordField
                             TextFormField(
                               controller: authProvider.passwordController,
                               obscureText: authProvider.obsecureText,
@@ -163,7 +159,7 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                             const SizedBox(
                               height: 60,
                             ),
-                            //signUPButtom = Register
+                            //todo signUPButtom = Register
                             Material(
                               elevation: 5,
                               borderRadius: BorderRadius.circular(17),
@@ -174,13 +170,6 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                                 minWidth: MediaQuery.of(context).size.width,
                                 onPressed: () async {
                                   await authProvider.signUp(context);
-                                  // Navigator.pushReplacement(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder:
-                                  //           // SIgNIN  HATABAHAA
-                                  //           (_) => const HomeFirstScreen()),
-                                  // );
                                 },
                                 child: const Text(
                                   'Register',
@@ -223,9 +212,6 @@ class _SignUpScreenPageState extends State<SignUpScreenPage> {
                                 ],
                               ),
                             ),
-
-
-
                             const SizedBox(
                               height: 50,
                             ),

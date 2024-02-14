@@ -9,7 +9,6 @@ import 'package:tasty_recipe_app/widgets/toast_message.widget.dart';
 class FreshRecipesProvider extends ChangeNotifier {
   // // searchlist  //todo search
 
-
   //**********
 //see all //recipes how masmaha kadaa
   List<RecipeModel>? _allList;
@@ -120,42 +119,25 @@ class FreshRecipesProvider extends ChangeNotifier {
     for (var entry in chosseUserValue.entries) {
       ref.where(entry.key, isEqualTo: entry.value);
       ref = ref.where('mealType', isEqualTo: chosseUserValue['mealType']);
-      var valueCalories;
-      ref = ref.where('calories', isGreaterThanOrEqualTo: valueCalories);
-      ref = ref.where('calories', isLessThanOrEqualTo: valueCalories + 100);
-      var valueServing;
-      ref = ref.where('servingSize', isGreaterThanOrEqualTo: valueServing);
-      ref = ref.where('servingSize', isLessThanOrEqualTo: valueServing + 1);
-      var valuePrepareTime;
+      ref = ref.where('calories', isEqualTo:  chosseUserValue['valueCalories']);
+      ref = ref.where('servingSize', isEqualTo:  chosseUserValue['valueServing']);
       ref = ref.where('preparationTime',
-          isGreaterThanOrEqualTo: valuePrepareTime);
-      ref = ref.where('preparationTime',
-          isLessThanOrEqualTo: valuePrepareTime + 60);
+          isEqualTo:  chosseUserValue['valuePrepareTime']);
     }
-
     var result = await ref.get();
     if (result.docs.isNotEmpty) {
       _resultFilter = List<RecipeModel>.from(
           result.docs.map((doc) => RecipeModel.fromJson(doc.data(), doc.id)));
-      print([resultFilter?.length]);
     } else {
-      _resultFilter = [];
     }
     notifyListeners();
   }
 
-//   Future<void> getFilteredResult() async {
-//     var ref = FirebaseFirestore.instance.collection('recipes');
-//     for (var entry in chosseUserValue.entries) {
-//       ref.where(entry.key, isEqualTo: entry.value);
-//     }
-//     var result = await ref.get();
-//     if (result.docs.isNotEmpty) {
-//       _resultFilter = List<RecipeModel>.from(
-//           result.docs.map((doc) => RecipeModel.fromJson(doc.data(), doc.id)));
-//     } else {}
-//     notifyListeners();
-//   }
+Filterlist (Map chosseUserValue){
+   chosseUserValue = chosseUserValue;
+   print(chosseUserValue);
+
+}
 
   //***************
   // open details in recipe //add recently
@@ -293,5 +275,3 @@ class FreshRecipesProvider extends ChangeNotifier {
   }
 //****************
 }
-
-

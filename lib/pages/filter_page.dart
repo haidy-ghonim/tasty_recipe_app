@@ -39,7 +39,6 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
             padding: const EdgeInsets.all(8.0),
             child: Lottie.network(
                 'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'
-                // 'https://lottie.host/2adf013a-659e-4c6a-96f3-4a5fec2c27e6/g1EC3MyqEY.json'
                 ),
           ),
           const SizedBox(
@@ -211,6 +210,7 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                             onChanged: (value) {
                               setState(() {
                                 valueServing = value;
+                                chosseUserValue['valueServing']=value;
                               });
                             }),
                       ]),
@@ -258,6 +258,8 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                             onChanged: (value) {
                               setState(() {
                                 valuePrepareTime = value;
+                                chosseUserValue['valuePrepareTime']=value;
+
                               });
                             }),
                       ]),
@@ -306,7 +308,9 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                                 onChanged: (value) {
                                   setState(() {
                                     valueCalories = value;
+                                    chosseUserValue['valueCalories']=value;
                                   });
+
                                 }),
                           ],
                         ),
@@ -323,6 +327,8 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
         onTap: () {
           Provider.of<FreshRecipesProvider>(context, listen: false)
               .getFilteredResult();
+          Provider.of<FreshRecipesProvider>(context, listen: false)
+              .Filterlist (chosseUserValue);
           Navigator.push(
               context,
               MaterialPageRoute(

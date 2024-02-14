@@ -54,7 +54,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         child: Center(
           child: Lottie.network(
             'https://lottie.host/876b36e1-7af8-4f14-beed-6281b33ebb4a/XslptGNdqS.json'
-            // 'https://lottie.host/4d024b33-296f-4896-a687-03467d77a699/7LSwabKqqe.json',
           ),
         ),
       ),

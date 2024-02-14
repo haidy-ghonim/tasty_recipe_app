@@ -166,7 +166,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                       child: TextFormField(
-                        controller: authProvider.phonenumberController,
+                        // controller: authProvider.phonenumberController,
                         style: const TextStyle(color: Colors.white),
                         keyboardType: TextInputType.name,
                         validator: (value) {
@@ -201,7 +201,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                       child: TextFormField(
-                        controller: authProvider.phonenumberController,
+                        // controller: authProvider.phonenumberController,
                         style: const TextStyle(color: Colors.white),
                         keyboardType: TextInputType.name,
                         validator: (value) {

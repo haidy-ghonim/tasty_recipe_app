@@ -13,7 +13,7 @@ class AppAuthProvider extends ChangeNotifier {
   TextEditingController? forgetpasswordController;
   TextEditingController? firstnameController;
   TextEditingController? ageController;
-  TextEditingController? phonenumberController;
+  TextEditingController? phoneNumberController;
   bool obsecureText = true;
 
   void providerInit() {
@@ -21,9 +21,9 @@ class AppAuthProvider extends ChangeNotifier {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     forgetpasswordController = TextEditingController();
-    phonenumberController = TextEditingController();
     firstnameController = TextEditingController();
     ageController = TextEditingController();
+    phoneNumberController=TextEditingController();
   }
 
   void providerDispose() {
@@ -32,9 +32,9 @@ class AppAuthProvider extends ChangeNotifier {
     formKey = null;
     obsecureText = false;
     forgetpasswordController = null;
-    phonenumberController = null;
     firstnameController = null;
     ageController = null;
+    phoneNumberController=null;
   }
 
   void toggleObsecure() {
@@ -42,22 +42,8 @@ class AppAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //****************
-
-//todo forget password
-
-
-
-
-
-
-
 //****************
 //todo  phone
-
-
-
-
 
   //****************
 //todo upload photo
@@ -79,7 +65,6 @@ class AppAuthProvider extends ChangeNotifier {
         );
       }
       notifyListeners();
-
     } catch (e) {
       // Handle any errors that occur during the update process
       print('Error updating photo URL: $e');
@@ -87,7 +72,6 @@ class AppAuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
 
 //****************
 //todo login
@@ -151,6 +135,7 @@ class AppAuthProvider extends ChangeNotifier {
       OverlayToastMessage.show(textMessage: 'Public Error $e');
     }
   }
+
   //****************
 //todo signup
   Future<void> signUp(BuildContext context) async {
@@ -180,6 +165,7 @@ class AppAuthProvider extends ChangeNotifier {
       OverlayLoadingProgress.stop();
     }
   }
+
   //****************
 //todo signout
   void signOut(BuildContext context) async {
@@ -195,5 +181,4 @@ class AppAuthProvider extends ChangeNotifier {
     OverlayLoadingProgress.stop();
   }
   //****************
-
 }
