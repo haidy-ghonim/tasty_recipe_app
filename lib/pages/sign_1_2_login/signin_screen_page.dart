@@ -162,7 +162,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                               BorderRadius.circular(20.0)),
                                       builder: (context) => Container(
                                         padding: const EdgeInsets.fromLTRB(
-                                            30, 80, 30, 10),
+                                            30, 80, 30, 0),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
@@ -177,7 +177,7 @@ class _SignInScreenPageState extends State<SignInScreenPage> {
                                                   .headlineLarge,
                                             ),
                                             const SizedBox(
-                                              height: 5,
+                                              height: 2,
                                             ),
                                             Text(
                                               "Select one of the options given below to rest  your password",

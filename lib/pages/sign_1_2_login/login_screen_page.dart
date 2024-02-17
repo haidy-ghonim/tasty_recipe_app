@@ -48,7 +48,7 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
                 ),
               ),
               const SizedBox(
-                height: 300,
+                height: 200,
               ),
 
               // loginButtom = resgister buttom ,

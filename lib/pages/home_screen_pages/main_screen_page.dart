@@ -100,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding:
                       EdgeInsets.only(left: 20, top: 10, right: 0, bottom: 0),
                   child: Text(
-                    "Bonjour, Emma",
+                    "Bonjour, Haidy",
                     style: TextStyle(fontSize: 16.0, color: Colors.grey),
                   ),
                 ),

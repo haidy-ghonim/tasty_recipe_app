@@ -102,6 +102,7 @@ dependencies:
   draggable_bottom_sheet: ^1.0.2
   path: ^1.8.3
   flutter_otp_text_field: ^1.1.1
+  loading_animation_widget: ^1.2.0+4
 
 
 

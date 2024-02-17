@@ -10,7 +10,6 @@ import 'package:tasty_recipe_app/pages/filter_page.dart';
 import 'package:tasty_recipe_app/pages/home_screen_pages/home_first_screen.dart';
 import '../provider/recipes.provider.dart';
 
-//todo  recently view
 class RecentlyViewedPage extends StatefulWidget {
   const RecentlyViewedPage({
     super.key,
@@ -21,6 +20,11 @@ class RecentlyViewedPage extends StatefulWidget {
 }
 
 class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
+  bool isSearching = false;
+  final _favouriteController = TextEditingController();
+  List<RecipeModel> recipesRecently = [];
+  List<RecipeModel> recipesRecentlyList = [];
+
   @override
   void initState() {
     Provider.of<FreshRecipesProvider>(context, listen: false)
@@ -128,13 +132,24 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                     borderRadius: BorderRadius.circular(14.0),
                                   ),
                                   child: TextField(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (_) =>
-                                      //             const SearchPage()));
-                                    }, //todo search same thing make
+                                    autocorrect: false,
+                                    autofocus: true,
+                                    controller: _favouriteController,
+                                    onChanged: (value) {
+                                      if (value.isEmpty) {
+                                        // If the search query is empty, show all recipes
+                                        recipesRecently = recipesList;
+                                      } else {
+                                        // Filter recipes whose titles contain the search query
+                                        recipesRecently = recipesList
+                                            .where((recipe) => recipe.title!
+                                                .toLowerCase()
+                                                .contains(value.toLowerCase()))
+                                            .toList();
+                                      }
+                                      print("object");
+                                    },
+                                    //todo search same thing make
                                     cursorColor: Colors.grey[500],
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
@@ -175,234 +190,238 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                           height: 10.0,
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 5, top: 0, right: 5, bottom: 0),
-                            child: ListView.builder(
-                              itemCount:recipesList.length ,
-                              itemBuilder: ( context,  index)=>
-                             Container(
-                                      height: 150,
-                                      width: 80,
-                                      //todo todo pppppp
-                                      padding: const EdgeInsets.only(
-                                          left: 15,
-                                          top: 0,
-                                          right: 15,
-                                          bottom: 0),
-                                      child: Card(
-                                        color: Colors.grey[100],
-                                        child: Slidable(
-                                          endActionPane: ActionPane(
-                                            // key: UniqueKey(),//todo error
-                                            motion: const ScrollMotion(),
-                                            // dismissible: DismissiblePane(
-                                            //     onDismissed: () {}),
-                                            children: [
-                                              SlidableAction(
-                                                onPressed: (context) {
-                                                  Provider.of<FreshRecipesProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .removeRecentlyViewToUser(
-                                                          recipesList[index].docId ??'');
-                                                },
-                                                //todo error
-                                                backgroundColor: Colors.red,
-                                                foregroundColor: Colors.white,
-                                                icon: Icons.delete,
-                                                label: 'Delete',
-                                              ),
-                                              // SlidableAction(
-                                              //   onPressed: noDothing,
-                                              //   backgroundColor:
-                                              //       const Color(0xFF21B7CA),
-                                              //   foregroundColor: Colors.white,
-                                              //   icon: Icons.share,
-                                              //   label: 'Share',
-                                              // ),
-                                            ],
+                            height: MediaQuery.of(context).size.height,
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 5, top: 0, right: 5, bottom: 0),
+                              child: ListView.builder(
+                                itemCount: recipesList.length,
+                                itemBuilder: (context, index) => Container(
+                                  height: 150,
+                                  width: 80,
+                                  padding: const EdgeInsets.only(
+                                      left: 15, top: 0, right: 15, bottom: 0),
+                                  child: Card(
+                                    color: Colors.grey[100],
+                                    child: Slidable(
+                                      endActionPane: ActionPane(
+                                        motion: const ScrollMotion(),
+                                        children: [
+                                          SlidableAction(
+                                            onPressed: (context) {
+                                              Provider.of<FreshRecipesProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .removeRecentlyViewToUser(
+                                                      recipesList[index]
+                                                              .docId ??
+                                                          '');
+                                            },
+                                            backgroundColor: Colors.red,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.delete,
+                                            label: 'Delete',
                                           ),
-                                          child: Container(
-                                            // height: 150,
-                                            // width: 80,
-                                            // margin: const EdgeInsets.only(
-                                            //     right: 10.0, top: 5, left: 10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[200],
+                                        ],
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(15),
+                                                  BorderRadius.circular(20),
+                                              child: Image.network(
+                                                recipesList[index].image!,
+                                                height: 120.0,
+                                                width: 100.0,
+                                                fit: BoxFit.contain,
+                                              ),
                                             ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  child: Image.network(
-                                                    recipesList[index].image!,
-                                                    height: 120.0,
-                                                    width: 100.0,
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                         horizontal: 10.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
                                                       children: [
+                                                        //todo name meal type
+                                                        Text(
+                                                          recipesList[index]
+                                                              .mealType!,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Hellix-MediumItalic',
+                                                              fontSize: 13.0,
+                                                              color: Colors
+                                                                  .cyan[700],
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal),
+                                                        ),
+                                                        const Spacer(),
                                                         Row(
                                                           children: [
-                                                            //todo name meal type
-                                                            Text(
-                                                              recipesList[index].mealType!,
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Hellix-MediumItalic',
-                                                                  fontSize:
-                                                                      13.0,
-                                                                  color: Colors
-                                                                          .cyan[
-                                                                      700],
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal),
-                                                            ),
-                                                            const Spacer(),
-                                                            Row(
-                                                              children: [
-                                                                InkWell(
-                                                                    onTap: () {
-                                                                      Provider.of<FreshRecipesProvider>(
-                                                                              context,
-                                                                              listen:
-                                                                                  false)
-                                                                          .addRecipeToUserFavourite(
-                                                                          recipesList[index].docId!,
-                                                                              isInList(  recipesList[index]));
-                                                                      if (isInList(
-                                                                          recipesList[index])) {
-                                                                        recipesList[index].users_ids?.remove(FirebaseAuth
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  Provider.of<FreshRecipesProvider>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .addRecipeToUserFavourite(
+                                                                          recipesList[index]
+                                                                              .docId!,
+                                                                          isInList(
+                                                                              recipesList[index]));
+                                                                  if (isInList(
+                                                                      recipesList[
+                                                                          index])) {
+                                                                    recipesList[
+                                                                            index]
+                                                                        .users_ids
+                                                                        ?.remove(FirebaseAuth
                                                                             .instance
                                                                             .currentUser
                                                                             ?.uid);
-                                                                      } else {}
-                                                                      setState(
-                                                                          () {});
-                                                                    },
-                                                                    //todo  error heart
-                                                                    child: isInList(
-                                                                        recipesList[index])
-                                                                        ? const Icon(
-                                                                            Icons.favorite_border_rounded,
-                                                                            size:
-                                                                                30,
-                                                                            color:
-                                                                                Colors.grey,
-                                                                          )
-                                                                        : Icon(
-                                                                            Icons.favorite_rounded,
-                                                                            size:
-                                                                                30,
-                                                                            color:
-                                                                                Colors.orange[900],
-                                                                          )),
-                                                              ],
-                                                            ),
+                                                                  } else {}
+                                                                  setState(
+                                                                      () {});
+                                                                },
+                                                                //todo  error heart
+                                                                child: isInList(
+                                                                        recipesList[
+                                                                            index])
+                                                                    ? const Icon(
+                                                                        Icons
+                                                                            .favorite_border_rounded,
+                                                                        size:
+                                                                            30,
+                                                                        color: Colors
+                                                                            .grey,
+                                                                      )
+                                                                    : Icon(
+                                                                        Icons
+                                                                            .favorite_rounded,
+                                                                        size:
+                                                                            30,
+                                                                        color: Colors
+                                                                            .orange[900],
+                                                                      )),
                                                           ],
                                                         ),
-                                                        const SizedBox(
-                                                          height: 2.0,
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 2.0,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Flexible(
+                                                          child: Text(
+                                                            recipesList[index]
+                                                                .title!,
+                                                            maxLines: 1,
+                                                            style: const TextStyle(
+                                                                fontSize: 16.0,
+                                                                fontFamily:
+                                                                    "LibreBaskerville"),
+                                                          ),
                                                         ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 6.0,
+                                                    ),
+                                                    Row(
+                                                      children: [
                                                         Row(
                                                           children: [
-                                                            Flexible(
-                                                              child: Text(
-                                                                recipesList[index].title!,
-                                                                maxLines: 1,
-                                                                // overflow:
-                                                                //     TextOverflow
-                                                                //         .ellipsis,
-                                                                style: const TextStyle(
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    fontFamily:
-                                                                        "LibreBaskerville"),
+                                                            RatingBar.builder(
+                                                              initialRating: 4,
+                                                              minRating: 1,
+                                                              direction: Axis
+                                                                  .horizontal,
+                                                              allowHalfRating:
+                                                                  true,
+                                                              updateOnDrag:
+                                                                  true,
+                                                              unratedColor:
+                                                                  Colors.grey,
+                                                              itemCount: 5,
+                                                              //todo how to give rate
+                                                              itemSize: 15,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                          _) =>
+                                                                      Icon(
+                                                                Icons.star,
+                                                                color: Colors
+                                                                        .orange[
+                                                                    900],
                                                               ),
+                                                              onRatingUpdate:
+                                                                  (rating) {
+                                                                // print(rating);
+                                                              },
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 8.0,
+                                                            ),
+                                                            Text(
+                                                              "${recipesList[index].calories!}  Calories",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                          .orange[
+                                                                      900],
+                                                                  fontSize:
+                                                                      14.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
                                                             ),
                                                           ],
                                                         ),
-                                                        const SizedBox(
-                                                          height: 6.0,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                RatingBar
-                                                                    .builder(
-                                                                  initialRating:
-                                                                      4,
-                                                                  minRating: 1,
-                                                                  direction: Axis
-                                                                      .horizontal,
-                                                                  allowHalfRating:
-                                                                      true,
-                                                                  updateOnDrag:
-                                                                      true,
-                                                                  unratedColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  itemCount: 5,
-                                                                  //todo how to give rate
-                                                                  itemSize: 15,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                              _) =>
-                                                                          Icon(
-                                                                    Icons.star,
-                                                                    color: Colors
-                                                                            .orange[
-                                                                        900],
-                                                                  ),
-                                                                  onRatingUpdate:
-                                                                      (rating) {
-                                                                    // print(rating);
-                                                                  },
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 8.0,
-                                                                ),
-                                                                Text(
-                                                                  "${  recipesList[index].calories!}  Calories",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                              .orange[
-                                                                          900],
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 6.0,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.access_time,
+                                                          color:
+                                                              Colors.grey[400],
+                                                          size: 19.0,
                                                         ),
                                                         const SizedBox(
-                                                          height: 6.0,
+                                                          width: 5.0,
+                                                        ),
+                                                        Text(
+                                                          "${recipesList[index].totalTime.toString()} mins",
+                                                          style: TextStyle(
+                                                              fontSize: 13.0,
+                                                              color: Colors
+                                                                  .grey[500]),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 16.0,
                                                         ),
                                                         Row(
                                                           children: [
                                                             Icon(
-                                                              Icons.access_time,
+                                                              Icons
+                                                                  .room_service_outlined,
                                                               color: Colors
                                                                   .grey[400],
                                                               size: 19.0,
@@ -411,58 +430,30 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                                               width: 5.0,
                                                             ),
                                                             Text(
-                                                              "${  recipesList[index].totalTime.toString()} mins",
+                                                              "${recipesList[index].serving.toString()} Serving",
                                                               style: TextStyle(
                                                                   fontSize:
-                                                                      13.0,
+                                                                      10.0,
                                                                   color: Colors
                                                                           .grey[
                                                                       500]),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 16.0,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .room_service_outlined,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      400],
-                                                                  size: 19.0,
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5.0,
-                                                                ),
-                                                                Text(
-                                                                  "${  recipesList[index].serving.toString()} Serving",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          10.0,
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          500]),
-                                                                ),
-                                                              ],
                                                             ),
                                                           ],
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  )
-                              //     .toList(),
-                            ),
-                          ),
-                        // ),
+                                  ),
+                                ),
+                              ),
+                            )),
                       ],
                     ),
                   );

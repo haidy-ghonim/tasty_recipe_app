@@ -18,27 +18,13 @@ class FavouritesPage extends StatefulWidget {
 }
 
 class _FavouritesPageState extends State<FavouritesPage> {
-  bool value = true;
-
-  List recipesFavourite = [];
-
-  void searchFromFirebase(String search) async {
-    final result = await FirebaseFirestore.instance
-        .collection('recipes')
-        .where(
-          "title",
-          arrayContains: search,
-        )
-        .get();
-
-    setState(() {
-      recipesFavourite = result.docs.map((e) => e.data()).toList();
-    });
-  }
+  bool isSearching = false;
+  final _favouriteController = TextEditingController();
+  List<RecipeModel> recipesFavourite = [];
+  List<RecipeModel> recipesList = [];
 
   @override
   void initState() {
-    init();
     super.initState();
   }
 
@@ -46,15 +32,9 @@ class _FavouritesPageState extends State<FavouritesPage> {
     return recipe.users_ids!.contains(FirebaseAuth.instance.currentUser?.uid);
   }
 
-  void init() async {
-    // await Provider.of<FreshRecipesProvider>(context, listen: false)
-    //     .getFavourite();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.green,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -72,10 +52,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Lottie.network(
-                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'
-                // 'https://lottie.host/2adf013a-659e-4c6a-96f3-4a5fec2c27e6/g1EC3MyqEY.json'
-
-                ),
+                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'),
           ),
           const SizedBox(
             width: 10,
@@ -98,22 +75,23 @@ class _FavouritesPageState extends State<FavouritesPage> {
               } else {
                 if (snapshots.hasData) {
                   List<RecipeModel> recipesList = snapshots.data?.docs
-                          .map((e) => RecipeModel.fromJson(e.data(), e.id))
-                          .toList() ??
+                      .map((e) => RecipeModel.fromJson(e.data(), e.id))
+                      .toList() ??
                       [];
+
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 12.0,
+                          height: 6.0,
                         ),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: 20, top: 10, right: 0, bottom: 0),
+                                  left: 20, top: 5, right: 0, bottom: 0),
                               child: Text(
                                 "Favourites",
                                 style: TextStyle(
@@ -139,10 +117,19 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                     borderRadius: BorderRadius.circular(14.0),
                                   ),
                                   child: TextField(
-                                    // onChanged: (e) {
-                                    //   // searchFromFirebase(e);
-                                    //   // Navigator.push(context, MaterialPageRoute(builder: (_)=> const SearchPage()));
-                                    // },
+                                    controller: _favouriteController,
+                                    onChanged: (value) {
+                                      final result = recipesList
+                                          .where((e) => e.title!
+                                              .toLowerCase()
+                                              .contains(value.toLowerCase()))
+                                          .toList();
+                                      recipesFavourite = result;
+                                      // searchFromFirebase(value);
+                                      print(
+                                          "oopopoplpl78880jihugggffffffffeee");
+                                      print(result);
+                                    },
                                     cursorColor: Colors.grey[500],
                                     decoration: const InputDecoration(
                                       border: InputBorder.none,
@@ -155,6 +142,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                       hintStyle: TextStyle(
                                           color: Colors.grey, fontSize: 14.0),
                                     ),
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 14.0),
                                   ),
                                 ),
                               ),
@@ -185,6 +174,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           child: FlexibleGridView(
+                            controller: ScrollController(),
                             // physics: NeverScrollableScrollPhysics(),
                             children: recipesList
                                 .map(
@@ -192,8 +182,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                     height: 340,
                                     padding: const EdgeInsets.only(
                                         left: 5, top: 0, right: 5, bottom: 0),
+                                    //todo animation of card
                                     child: Card(
-                                      color: Colors.grey[100],
                                       elevation: 2,
                                       child: Container(
                                         height: 400,
@@ -201,7 +191,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                         margin: const EdgeInsets.only(
                                             right: 10.0, left: 10.0),
                                         decoration: BoxDecoration(
-                                          // color: Colors.grey[200],
+                                          color: Colors.grey[200],
                                           borderRadius:
                                               BorderRadius.circular(15.0),
                                         ),
@@ -240,8 +230,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                                     .instance
                                                                     .currentUser
                                                                     ?.uid);
-                                                          } else {
-                                                          }
+                                                          } else {}
                                                           setState(() {});
                                                         },
                                                         //todo  error heart
@@ -305,8 +294,10 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                             child: Text(
                                                               e.title!,
                                                               maxLines: 2,
-                                                              overflow: TextOverflow
-                                                                  .ellipsis, //todo bafakera akafalha
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              //todo bafakera akafalha
                                                               style:
                                                                   const TextStyle(
                                                                 fontFamily:
@@ -329,8 +320,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                       allowHalfRating: true,
                                                       updateOnDrag: true,
                                                       unratedColor: Colors.grey,
-                                                      itemCount:
-                                                          5, //todo how to give rate
+                                                      itemCount: 5,
+                                                      //todo how to give rate
                                                       itemSize: 15,
                                                       itemBuilder:
                                                           (context, _) => Icon(

@@ -25,6 +25,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
+    String? username =FirebaseAuth.instance.currentUser!.displayName;
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -146,7 +147,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                           ),
                           contentPadding:
                               const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          hintText: "Full Name",
+                          hintText: username,
                           fillColor: Colors.blueGrey,
                           filled: true,
                           hintStyle: const TextStyle(color: Colors.white),
@@ -239,16 +240,17 @@ class _PortfolioPageState extends State<PortfolioPage> {
                         children: [
                           OutlinedButton(
                             onPressed: () {
-                              // if(! context.read<AppAuthProvider>()
-                              //     .formKey!.currentState!.validate()){
-                              //   return;
-                              //
-                              // } context.read<AppAuthProvider>().formKey?.currentState!.save();
-                              // if (!authProvider.formKey!.currentState!
-                              //     .validate()) {
-                              //   return;
-                              // }
-                              // authProvider.formKey?.currentState!.save();
+                              if(! context.read<AppAuthProvider>()
+                                  .formKey!.currentState!.validate()){
+                                return;
+
+                              } context.read<AppAuthProvider>().formKey?.currentState!.save();
+                              if (!authProvider.formKey!.currentState!
+                                  .validate()) {
+                                return;
+                              }
+                              authProvider.formKey?.currentState!.save();
+                              // Navigator.pop(context);
                             },
                             child: const Text(
                               "Save",

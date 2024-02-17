@@ -38,8 +38,7 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Lottie.network(
-                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'
-                ),
+                'https://lottie.host/f15ed9f6-df3a-4fe5-854d-c61951d77a28/rMnQwRRxX0.json'),
           ),
           const SizedBox(
             width: 10,
@@ -210,7 +209,7 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                             onChanged: (value) {
                               setState(() {
                                 valueServing = value;
-                                chosseUserValue['valueServing']=value;
+                                chosseUserValue['serving'] = value;
                               });
                             }),
                       ]),
@@ -258,8 +257,7 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                             onChanged: (value) {
                               setState(() {
                                 valuePrepareTime = value;
-                                chosseUserValue['valuePrepareTime']=value;
-
+                                chosseUserValue['totalTime'] = value;
                               });
                             }),
                       ]),
@@ -287,7 +285,6 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                     ],
                   ),
                 ),
-
                 Container(
                   child: Column(
                     children: [
@@ -308,9 +305,8 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
                                 onChanged: (value) {
                                   setState(() {
                                     valueCalories = value;
-                                    chosseUserValue['valueCalories']=value;
+                                    chosseUserValue['calories'] = value;
                                   });
-
                                 }),
                           ],
                         ),
@@ -328,7 +324,7 @@ class _FilterScreenPageState extends State<FilterScreenPage> {
           Provider.of<FreshRecipesProvider>(context, listen: false)
               .getFilteredResult();
           Provider.of<FreshRecipesProvider>(context, listen: false)
-              .Filterlist (chosseUserValue);
+              .Filterlist(chosseUserValue);
           Navigator.push(
               context,
               MaterialPageRoute(

@@ -5,12 +5,10 @@ import 'package:overlay_kit/overlay_kit.dart';
 import 'package:tasty_recipe_app/models/recipe.model.dart';
 import 'package:tasty_recipe_app/utils/toast_message_status.dart';
 import 'package:tasty_recipe_app/widgets/toast_message.widget.dart';
+// // searchlist  //todo search
 
 class FreshRecipesProvider extends ChangeNotifier {
-  // // searchlist  //todo search
-
-  //**********
-//see all //recipes how masmaha kadaa
+  //see all //recipes how masmaha kadaa
   List<RecipeModel>? _allList;
   List<RecipeModel>? get allList => _allList;
   Future<void> getAllRecipes() async {
@@ -108,36 +106,32 @@ class FreshRecipesProvider extends ChangeNotifier {
   }
 
   //***************
-//filter
+// Filter
   List<RecipeModel>? _resultFilter;
   List<RecipeModel>? get resultFilter => _resultFilter;
   var chosseUserValue = {};
+  List<QuerySnapshot> data = []; //todo
 //call  with query snap filter list  da gazaa el map apply
   Future<void> getFilteredResult() async {
-    Query<Map<String, dynamic>> ref =
-        FirebaseFirestore.instance.collection('recipes');
-    for (var entry in chosseUserValue.entries) {
-      ref.where(entry.key, isEqualTo: entry.value);
-      ref = ref.where('mealType', isEqualTo: chosseUserValue['mealType']);
-      ref = ref.where('calories', isEqualTo:  chosseUserValue['valueCalories']);
-      ref = ref.where('servingSize', isEqualTo:  chosseUserValue['valueServing']);
-      ref = ref.where('preparationTime',
-          isEqualTo:  chosseUserValue['valuePrepareTime']);
-    }
-    var result = await ref.get();
+    Query<Map<String, dynamic>> ref = FirebaseFirestore.instance
+        .collection('recipes')
+        .where('mealType', isEqualTo: chosseUserValue['mealType'])
+        .where('calories', isEqualTo: chosseUserValue['calories'])
+        .where('serving', isEqualTo: chosseUserValue['serving'])
+        .where('totalTime',
+            isEqualTo: chosseUserValue['totalTime']);
+          var result = await ref.get();
     if (result.docs.isNotEmpty) {
       _resultFilter = List<RecipeModel>.from(
           result.docs.map((doc) => RecipeModel.fromJson(doc.data(), doc.id)));
-    } else {
-    }
+    } else {}
     notifyListeners();
   }
 
-Filterlist (Map chosseUserValue){
-   chosseUserValue = chosseUserValue;
-   print(chosseUserValue);
-
-}
+  Filterlist(Map chosseUserValue) {
+    chosseUserValue = chosseUserValue;
+    print(chosseUserValue);
+  }
 
   //***************
   // open details in recipe //add recently
@@ -273,5 +267,4 @@ Filterlist (Map chosseUserValue){
       );
     }
   }
-//****************
 }
