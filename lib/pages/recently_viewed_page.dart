@@ -35,7 +35,6 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
   bool isInList(RecipeModel recipe) {
     return recipe.users_ids!.contains(FirebaseAuth.instance.currentUser?.uid);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
